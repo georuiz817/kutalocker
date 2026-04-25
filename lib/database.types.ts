@@ -76,7 +76,7 @@ export type Database = {
           id: string;
           locker_id: string;
           number: number;
-          name: string;
+          name: string | null;
           price: number;
           description: string | null;
           sold: boolean;
@@ -86,7 +86,7 @@ export type Database = {
           id?: string;
           locker_id: string;
           number: number;
-          name: string;
+          name?: string | null;
           price: number;
           description?: string | null;
           sold?: boolean;
@@ -96,7 +96,7 @@ export type Database = {
           id?: string;
           locker_id?: string;
           number?: number;
-          name?: string;
+          name?: string | null;
           price?: number;
           description?: string | null;
           sold?: boolean;

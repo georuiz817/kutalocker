@@ -259,6 +259,334 @@ h1 {
   font-weight: 650;
 }
 
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9em;
+}
+
+.small {
+  font-size: 0.85rem;
+}
+
+.text-link {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.text-link:hover {
+  color: var(--foreground);
+}
+
+.dashboard-page .dashboard-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-page .dashboard-header h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--card);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  color: var(--muted);
+  font-weight: 650;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.state-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  border: 1px solid var(--border);
+}
+
+.state-active {
+  color: #0f5d2a;
+  border-color: #8fce9a;
+  background: rgb(46 204 113 / 0.12);
+}
+
+.state-frozen {
+  color: #1d4ed8;
+  border-color: #93c5fd;
+  background: rgb(59 130 246 / 0.12);
+}
+
+.state-sold-out {
+  color: #9a3412;
+  border-color: #fdba74;
+  background: rgb(251 146 60 / 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  .state-active {
+    color: #86efac;
+    border-color: #166534;
+    background: rgb(34 197 94 / 0.15);
+  }
+
+  .state-frozen {
+    color: #93c5fd;
+    border-color: #1e40af;
+    background: rgb(59 130 246 / 0.18);
+  }
+
+  .state-sold-out {
+    color: #fdba74;
+    border-color: #9a3412;
+    background: rgb(251 146 60 / 0.12);
+  }
+}
+
+.row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.button-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  background: transparent;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.button-ghost:hover:not(:disabled) {
+  border-color: var(--foreground);
+}
+
+.button-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  background: transparent;
+  font-weight: 650;
+}
+
+.button-danger:hover {
+  color: var(--accent-foreground);
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+.locker-form-page .locker-form-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.locker-number-pill {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.banner {
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.banner-frozen {
+  border: 1px solid #93c5fd;
+  background: rgb(59 130 246 / 0.1);
+  color: var(--foreground);
+}
+
+.banner-success {
+  border: 1px solid #8fce9a;
+  background: rgb(46 204 113 / 0.14);
+  color: #0f5d2a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .banner-success {
+    border-color: #166534;
+    background: rgb(34 197 94 / 0.18);
+    color: #86efac;
+  }
+}
+
+.locker-form-panel.panel {
+  width: min(100%, 960px);
+}
+
+.locker-form-title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.04em;
+}
+
+.locker-form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.locker-form .field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.locker-form .field label {
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.locker-form .field input[type="text"],
+.locker-form .field input[type="number"],
+.locker-form .field input[type="file"] {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  color: var(--foreground);
+  background: var(--background);
+}
+
+.locker-form .field input:focus {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+.photo-preview {
+  margin-top: 0.75rem;
+  max-width: 280px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.photo-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+.items-fieldset {
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  padding: 1rem 1.1rem;
+}
+
+.items-fieldset legend {
+  padding: 0 0.35rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.items-hint {
+  margin-bottom: 0.75rem;
+}
+
+.item-rows {
+  display: grid;
+  gap: 1rem;
+}
+
+.item-row {
+  display: grid;
+  grid-template-columns: 5rem 6.5rem 1fr 1.5fr auto;
+  gap: 0.75rem;
+  align-items: end;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.item-row:last-of-type {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.item-row .field.compact input {
+  padding: 0.55rem 0.65rem;
+}
+
+.item-row .field.grow.wide {
+  grid-column: span 1;
+}
+
+.add-item-btn {
+  margin-top: 0.75rem;
+}
+
+.row-remove {
+  align-self: end;
+  margin-bottom: 0.15rem;
+}
+
+.form-actions {
+  margin-top: 0.5rem;
+}
+
+.freeze-block {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: 0.75rem;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -275,5 +603,13 @@ h1 {
   .auth-card,
   .panel {
     padding: 1.5rem;
+  }
+
+  .item-row {
+    grid-template-columns: 1fr;
+  }
+
+  .row-remove {
+    justify-self: start;
   }
 }

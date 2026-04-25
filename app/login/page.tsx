@@ -49,7 +49,7 @@ export default function LoginPage() {
     <main className="auth-page">
       <section className="auth-card" aria-labelledby="login-title">
         <p className="eyebrow">Welcome back</p>
-        <h1 id="login-title">Log in to Bento</h1>
+        <h1 id="login-title">Log in to Kura</h1>
         <p className="muted">
           Sellers go to the dashboard. Buyers return to the marketplace.
         </p>
@@ -85,7 +85,7 @@ export default function LoginPage() {
         </form>
 
         <p className="auth-switch">
-          New to Bento? <Link href="/signup">Create an account</Link>
+          New to Kura? <Link href="/signup">Create an account</Link>
         </p>
       </section>
     </main>

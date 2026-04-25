@@ -53,7 +53,9 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (request.nextUrl.pathname.startsWith("/dashboard")) {
+  const path = request.nextUrl.pathname;
+
+  if (path.startsWith("/dashboard")) {
     if (!user) {
       return redirectWithSessionCookies(request, supabaseResponse, "/");
     }
@@ -67,6 +69,17 @@ export async function updateSession(request: NextRequest) {
     if (profile?.role !== "seller") {
       return redirectWithSessionCookies(request, supabaseResponse, "/");
     }
+  }
+
+  if (user && (path === "/login" || path === "/signup")) {
+    const { data: profile } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    const destination = profile?.role === "seller" ? "/dashboard" : "/";
+    return redirectWithSessionCookies(request, supabaseResponse, destination);
   }
 
   return supabaseResponse;

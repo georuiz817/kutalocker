@@ -25,9 +25,9 @@ export default async function Nav() {
       <nav className="site-nav" aria-label="Main navigation">
         <Link className="brand" href="/">
           <span className="brand-mark" aria-hidden="true">
-            B
+            K
           </span>
-          <span>Bento</span>
+          <span>Kura</span>
         </Link>
 
         <div className="nav-links">

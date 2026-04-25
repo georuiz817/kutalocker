@@ -62,7 +62,7 @@ export default function SignUpPage() {
     <main className="auth-page">
       <section className="auth-card" aria-labelledby="signup-title">
         <p className="eyebrow">Create account</p>
-        <h1 id="signup-title">Sign up for Bento</h1>
+        <h1 id="signup-title">Sign up for Kura</h1>
         <p className="muted">
           Choose whether you want to shop as a buyer or manage lockers as a
           seller.

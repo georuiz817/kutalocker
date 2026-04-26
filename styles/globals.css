@@ -587,6 +587,364 @@ h1 {
   gap: 0.75rem;
 }
 
+/* —— Buyer marketplace —— */
+.home-page .home-header {
+  margin-bottom: 2rem;
+}
+
+.home-page .home-header h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  letter-spacing: -0.04em;
+}
+
+.locker-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .locker-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.locker-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--card);
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.locker-card:hover {
+  border-color: var(--foreground);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 0.08);
+}
+
+.locker-card-image-wrap {
+  aspect-ratio: 4 / 3;
+  background: var(--border);
+}
+
+.locker-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.locker-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.locker-card-body {
+  padding: 1rem 1.15rem 1.25rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.locker-card-number {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.locker-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.locker-card-meta {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.nav-cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  padding: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.nav-cart:hover {
+  color: var(--foreground);
+}
+
+.nav-cart-icon {
+  display: flex;
+}
+
+.nav-cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding: 0 4px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  line-height: 1.15rem;
+  text-align: center;
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.locker-public .locker-hero-image {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto 1.5rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--border);
+}
+
+.locker-hero-img {
+  width: 100%;
+  max-height: min(70vh, 520px);
+  object-fit: cover;
+  display: block;
+}
+
+.locker-hero-placeholder {
+  min-height: 200px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+
+.locker-public-header {
+  max-width: 720px;
+  margin-bottom: 2rem;
+}
+
+.locker-public-header h1 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  letter-spacing: -0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.locker-public-number {
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.locker-shipping-callout {
+  font-size: 1.05rem;
+  margin-top: 0.75rem;
+}
+
+.items-section-title {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.public-item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 720px;
+  display: grid;
+  gap: 0;
+  counter-reset: item;
+}
+
+.public-item {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+}
+
+.public-item:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.public-item-main {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.public-item-index {
+  flex-shrink: 0;
+  font-weight: 700;
+  color: var(--muted);
+  min-width: 2rem;
+}
+
+.public-item-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.public-item-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.public-item-name {
+  font-weight: 650;
+}
+
+.public-item-price {
+  font-weight: 700;
+}
+
+.public-item-desc {
+  font-size: 0.95rem;
+}
+
+.public-item-sold {
+  opacity: 0.55;
+}
+
+.public-item-sold .public-item-price {
+  text-decoration: line-through;
+}
+
+.sold-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: fit-content;
+}
+
+.add-to-cart-wrap {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.add-to-cart-btn {
+  width: fit-content;
+  min-height: 2.25rem;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+}
+
+.cart-warning {
+  font-size: 0.85rem;
+  color: var(--danger);
+  line-height: 1.45;
+}
+
+.cart-warning a {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.cart-page h1 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: 0.5rem;
+}
+
+.cart-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cart-lines {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  overflow: hidden;
+  max-width: 640px;
+}
+
+.cart-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.cart-line:last-child {
+  border-bottom: 0;
+}
+
+.cart-line-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cart-remove {
+  font-size: 0.85rem;
+  text-decoration: underline;
+}
+
+.cart-totals {
+  max-width: 320px;
+  margin-bottom: 1.25rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.cart-total-strong {
+  font-weight: 800;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.25rem;
+}
+
+.cart-checkout-btn {
+  min-height: 2.6rem;
+  padding: 0 1.25rem;
+}
+
+.cart-checkout-note {
+  margin-top: 0.75rem;
+}
+
+.cart-checkout-msg a {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

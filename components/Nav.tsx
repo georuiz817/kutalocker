@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import NavCartLink from "@/components/NavCartLink";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Nav() {
@@ -31,6 +32,7 @@ export default async function Nav() {
         </Link>
 
         <div className="nav-links">
+          <NavCartLink />
           {user ? (
             <>
               {profile?.role === "seller" ? (

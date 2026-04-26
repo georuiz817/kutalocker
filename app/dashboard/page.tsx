@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { freezeLockerFromList } from "./actions";
+import PayoutInformationCard from "./PayoutInformationCard";
 
 type ShippingAddressJson = {
   name?: string | null;
@@ -55,6 +56,12 @@ export default async function DashboardPage() {
   if (!user) {
     redirect("/");
   }
+
+  const { data: payoutRow } = await supabase
+    .from("users")
+    .select("payout_method, payout_handle")
+    .eq("id", user.id)
+    .maybeSingle();
 
   const { data: lockers } = await supabase
     .from("lockers")
@@ -250,6 +257,11 @@ export default async function DashboardPage() {
           </ul>
         )}
       </section>
+
+      <PayoutInformationCard
+        initialPayoutMethod={payoutRow?.payout_method ?? null}
+        initialPayoutHandle={payoutRow?.payout_handle ?? null}
+      />
     </main>
   );
 }

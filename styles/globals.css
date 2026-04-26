@@ -940,9 +940,150 @@ h1 {
   margin-top: 0.75rem;
 }
 
+.cart-stripe-test-hint {
+  margin-top: 0.5rem;
+  max-width: 32rem;
+  line-height: 1.5;
+  padding: 0.6rem 0.75rem;
+  border: 1px dashed var(--border);
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+}
+
 .cart-checkout-msg a {
   font-weight: 700;
   text-decoration: underline;
+}
+
+/* Order confirmation */
+.order-confirmed h1 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: 0.5rem;
+}
+
+.order-confirmed-lead {
+  margin-bottom: 1.25rem;
+  color: var(--muted);
+}
+
+.order-confirmed-lines {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  overflow: hidden;
+  max-width: 640px;
+}
+
+.order-confirmed-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.order-confirmed-line:last-child {
+  border-bottom: 0;
+}
+
+.order-confirmed-total {
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Buyer order history */
+.orders-page h1 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: 0.5rem;
+}
+
+.orders-list {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  max-width: 720px;
+}
+
+.orders-card-header {
+  margin-bottom: 0.5rem;
+}
+
+.orders-locker-nick {
+  font-weight: 600;
+  margin: 0.2rem 0 0.35rem;
+}
+
+.orders-date {
+  font-size: 0.85rem;
+}
+
+.orders-total {
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+.orders-items {
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--foreground);
+}
+
+/* Seller dashboard — orders */
+.dashboard-orders {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  max-width: 960px;
+}
+
+.dashboard-orders-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.dashboard-orders-lead {
+  margin-bottom: 1.25rem;
+}
+
+.dashboard-orders-empty {
+  max-width: 480px;
+}
+
+.seller-orders-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.seller-order-card {
+  font-size: 0.95rem;
+}
+
+.seller-order-date {
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+
+.seller-order-ship {
+  margin: 0.4rem 0 0.75rem;
+  line-height: 1.45;
+  font-size: 0.9rem;
+}
+
+.seller-order-items {
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
 }
 
 @media (prefers-color-scheme: dark) {

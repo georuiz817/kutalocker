@@ -119,6 +119,9 @@ export type Database = {
           locker_id: string;
           total: number;
           created_at: string;
+          shipping_address: Json | null;
+          stripe_checkout_session_id: string | null;
+          platform_fee: number;
         };
         Insert: {
           id?: string;
@@ -126,6 +129,9 @@ export type Database = {
           locker_id: string;
           total: number;
           created_at?: string;
+          shipping_address?: Json | null;
+          stripe_checkout_session_id?: string | null;
+          platform_fee?: number;
         };
         Update: {
           id?: string;
@@ -133,6 +139,9 @@ export type Database = {
           locker_id?: string;
           total?: number;
           created_at?: string;
+          shipping_address?: Json | null;
+          stripe_checkout_session_id?: string | null;
+          platform_fee?: number;
         };
         Relationships: [
           {
@@ -186,7 +195,12 @@ export type Database = {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      seller_order_buyer_email: {
+        Args: { p_order_id: string };
+        Returns: string | null;
+      };
+    };
     Enums: {
       user_role: "buyer" | "seller";
       locker_state: "active" | "frozen" | "sold_out";

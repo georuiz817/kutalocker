@@ -8,27 +8,57 @@ import { getBuyerAuth } from "@/lib/buyer-auth";
 export default function CartPage() {
   const { cart, removeLine, clearCart, hydrated } = useCart();
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   const loginHref = `/login?next=${encodeURIComponent("/cart")}`;
 
   const subtotal = cart.lines.reduce((sum, line) => sum + line.price, 0);
+  const subtotalR = Math.round(subtotal * 100) / 100;
+  const platformFee = Math.round(subtotalR * 0.1 * 100) / 100;
   const shipping = cart.locker ? cart.locker.shippingRate : 0;
-  const total = subtotal + shipping;
+  const shippingR = Math.round(shipping * 100) / 100;
+  const total = Math.round((subtotalR + platformFee + shippingR) * 100) / 100;
 
   async function handleCheckout() {
+    if (!cart.locker) {
+      return;
+    }
     setCheckoutMessage(null);
+    setCheckoutLoading(true);
     const auth = await getBuyerAuth();
     if (!auth.ok) {
+      setCheckoutLoading(false);
       if (auth.reason === "not_logged_in") {
-        setCheckoutMessage(
-          "Log in as a buyer to check out."
-        );
+        setCheckoutMessage("Log in as a buyer to check out.");
       } else {
         setCheckoutMessage("Only buyer accounts can check out.");
       }
       return;
     }
-    setCheckoutMessage("Checkout with Stripe is coming soon.");
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          itemIds: cart.lines.map((l) => l.itemId),
+          lockerId: cart.locker.id,
+        }),
+      });
+      const data = (await res.json()) as { url?: string; error?: string };
+      if (!res.ok) {
+        setCheckoutMessage(data.error ?? "Could not start checkout.");
+        return;
+      }
+      if (data.url) {
+        window.location.assign(data.url);
+        return;
+      }
+      setCheckoutMessage("Could not start checkout.");
+    } catch {
+      setCheckoutMessage("Network error. Try again.");
+    } finally {
+      setCheckoutLoading(false);
+    }
   }
 
   if (!hydrated) {
@@ -86,12 +116,16 @@ export default function CartPage() {
 
       <div className="cart-totals">
         <div className="cart-total-row">
-          <span>Subtotal</span>
-          <span className="mono">${subtotal.toFixed(2)}</span>
+          <span>Subtotal (items)</span>
+          <span className="mono">${subtotalR.toFixed(2)}</span>
+        </div>
+        <div className="cart-total-row">
+          <span>Platform fee (10%)</span>
+          <span className="mono">${platformFee.toFixed(2)}</span>
         </div>
         <div className="cart-total-row">
           <span>Shipping (flat)</span>
-          <span className="mono">${shipping.toFixed(2)}</span>
+          <span className="mono">${shippingR.toFixed(2)}</span>
         </div>
         <div className="cart-total-row cart-total-strong">
           <span>Total</span>
@@ -108,12 +142,24 @@ export default function CartPage() {
         </p>
       ) : null}
 
-      <button type="button" className="button-link cart-checkout-btn" onClick={handleCheckout}>
-        Checkout
+      <button
+        type="button"
+        className="button-link cart-checkout-btn"
+        onClick={handleCheckout}
+        disabled={checkoutLoading}
+      >
+        {checkoutLoading ? "Redirecting…" : "Checkout with Stripe"}
       </button>
       <p className="muted small cart-checkout-note">
-        Payment will be added in a later step (Stripe).
+        Secure payment via Stripe. You will be asked for a shipping address at checkout.
       </p>
+      {process.env.NODE_ENV === "development" ? (
+        <p className="muted small cart-stripe-test-hint" role="note">
+          Stripe test mode: pay with card{" "}
+          <span className="mono">4242 4242 4242 4242</span>, any future expiry date, and
+          any 3-digit CVC.
+        </p>
+      ) : null}
     </main>
   );
 }

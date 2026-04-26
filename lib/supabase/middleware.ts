@@ -71,6 +71,27 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
+  if (path === "/orders" || path.startsWith("/order/confirmed")) {
+    if (!user) {
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = "/login";
+      const nextParam =
+        request.nextUrl.pathname + (request.nextUrl.search || "");
+      loginUrl.searchParams.set("next", nextParam);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    const { data: profile } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (profile?.role !== "buyer") {
+      return redirectWithSessionCookies(request, supabaseResponse, "/");
+    }
+  }
+
   if (user && (path === "/login" || path === "/signup")) {
     const { data: profile } = await supabase
       .from("users")

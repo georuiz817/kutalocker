@@ -35,6 +35,9 @@ export default async function Nav() {
           <NavCartLink />
           {user ? (
             <>
+              {profile?.role === "buyer" ? (
+                <Link href="/orders">Orders</Link>
+              ) : null}
               {profile?.role === "seller" ? (
                 <Link href="/dashboard">Dashboard</Link>
               ) : null}

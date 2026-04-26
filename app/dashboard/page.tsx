@@ -3,6 +3,48 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { freezeLockerFromList } from "./actions";
 
+type ShippingAddressJson = {
+  name?: string | null;
+  line1?: string | null;
+  line2?: string | null;
+  city?: string | null;
+  state?: string | null;
+  postal_code?: string | null;
+  country?: string | null;
+};
+
+function formatShippingAddress(value: unknown): string | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+  const a = value as ShippingAddressJson;
+  const line2 = a.line2?.trim();
+  const cityLine = [a.city, a.state, a.postal_code].filter(Boolean).join(", ");
+  const parts = [a.name, a.line1, line2 || null, cityLine, a.country].filter(
+    (p) => p && String(p).trim().length
+  ) as string[];
+  if (!parts.length) {
+    return null;
+  }
+  return parts.join(" · ");
+}
+
+type SellerOrderRow = {
+  id: string;
+  total: number;
+  created_at: string;
+  locker_id: string;
+  shipping_address: unknown;
+  order_items: {
+    item_id: string;
+    items: {
+      number: number;
+      name: string | null;
+      price: number;
+    } | null;
+  }[] | null;
+};
+
 export default async function DashboardPage() {
   const supabase = createClient();
   const {
@@ -18,6 +60,44 @@ export default async function DashboardPage() {
     .select("*")
     .eq("seller_id", user.id)
     .order("number", { ascending: true });
+
+  const lockerIds = lockers?.map((l) => l.id) ?? [];
+  const lockerById = new Map(lockers?.map((l) => [l.id, l]) ?? []);
+
+  let sellerOrders: SellerOrderRow[] = [];
+  const buyerEmailByOrder = new Map<string, string | null>();
+
+  if (lockerIds.length > 0) {
+    const { data: oRows } = await supabase
+      .from("orders")
+      .select(
+        `
+        id,
+        total,
+        created_at,
+        locker_id,
+        shipping_address,
+        order_items (
+          item_id,
+          items ( number, name, price )
+        )
+      `
+      )
+      .in("locker_id", lockerIds)
+      .order("created_at", { ascending: false });
+
+    sellerOrders = (oRows ?? []) as SellerOrderRow[];
+
+    await Promise.all(
+      sellerOrders.map(async (o) => {
+        const { data: email } = await supabase.rpc(
+          "seller_order_buyer_email",
+          { p_order_id: o.id }
+        );
+        buyerEmailByOrder.set(o.id, email);
+      })
+    );
+  }
 
   return (
     <main className="page-shell dashboard-page">
@@ -92,6 +172,78 @@ export default async function DashboardPage() {
           </table>
         </div>
       )}
+
+      <section className="dashboard-orders">
+        <h2 className="dashboard-orders-title">Orders</h2>
+        <p className="muted small dashboard-orders-lead">
+          Purchases from your lockers. Shipping addresses are from Stripe
+          checkout.
+        </p>
+
+        {!lockerIds.length || !sellerOrders.length ? (
+          <div className="panel empty-state dashboard-orders-empty">
+            <p className="muted">No orders yet.</p>
+          </div>
+        ) : (
+          <ul className="seller-orders-list">
+            {sellerOrders.map((order) => {
+              const locker = lockerById.get(order.locker_id);
+              const oi = order.order_items;
+              const date = new Date(order.created_at);
+              const address = formatShippingAddress(order.shipping_address);
+              const email = buyerEmailByOrder.get(order.id);
+
+              return (
+                <li key={order.id} className="seller-order-card panel">
+                  <p className="seller-order-date muted">
+                    {date.toLocaleString(undefined, {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}
+                  </p>
+                  <p>
+                    <span className="mono">Locker #{locker?.number}</span> —{" "}
+                    {locker?.nickname}
+                  </p>
+                  <p>
+                    <span className="muted">Total:</span>{" "}
+                    <span className="mono">${Number(order.total).toFixed(2)}</span>
+                  </p>
+                  {email ? (
+                    <p>
+                      <span className="muted">Buyer:</span> {email}
+                    </p>
+                  ) : null}
+                  {address ? (
+                    <p className="seller-order-ship">
+                      <span className="muted">Ship to:</span> {address}
+                    </p>
+                  ) : (
+                    <p className="muted small">No shipping address on file.</p>
+                  )}
+                  <ul className="seller-order-items">
+                    {(oi ?? []).map((row) => {
+                      const it = row.items;
+                      if (!it) {
+                        return null;
+                      }
+                      return (
+                        <li key={row.item_id}>
+                          <span className="mono">#{it.number}</span>{" "}
+                          {it.name?.trim() ? it.name : `Item ${it.number}`} —{" "}
+                          <span className="mono">
+                            ${Number(it.price).toFixed(2)}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
     </main>
   );
 }

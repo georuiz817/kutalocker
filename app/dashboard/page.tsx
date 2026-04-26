@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { freezeLockerFromList } from "./actions";
 
@@ -68,23 +69,28 @@ export default async function DashboardPage() {
   const buyerEmailByOrder = new Map<string, string | null>();
 
   if (lockerIds.length > 0) {
-    const { data: oRows } = await supabase
-      .from("orders")
-      .select(
-        `
-        id,
-        total,
-        created_at,
-        locker_id,
-        shipping_address,
-        order_items (
-          item_id,
-          items ( number, name, price )
-        )
-      `
+    const orderSelect = `
+      id,
+      total,
+      created_at,
+      locker_id,
+      shipping_address,
+      order_items (
+        item_id,
+        items ( number, name, price )
       )
+    `;
+
+    const admin = createServiceRoleClient();
+    const { data: oRows, error: ordersError } = await admin
+      .from("orders")
+      .select(orderSelect)
       .in("locker_id", lockerIds)
       .order("created_at", { ascending: false });
+
+    if (ordersError) {
+      console.error("Seller orders query failed:", ordersError.message);
+    }
 
     sellerOrders = (oRows ?? []) as SellerOrderRow[];
 

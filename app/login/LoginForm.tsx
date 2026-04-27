@@ -14,9 +14,11 @@ function safeNextPath(next: string | undefined) {
 
 type Props = {
   redirectTo?: string;
+  /** Set when redirected after a successful password reset */
+  passwordReset?: boolean;
 };
 
-export default function LoginForm({ redirectTo }: Props) {
+export default function LoginForm({ redirectTo, passwordReset }: Props) {
   const router = useRouter();
   const supabase = createClient();
   const [email, setEmail] = useState("");
@@ -72,6 +74,12 @@ export default function LoginForm({ redirectTo }: Props) {
           page you were viewing.
         </p>
 
+        {passwordReset ? (
+          <p className="form-message form-message-success" role="status">
+            Your password was updated. Log in with your new password.
+          </p>
+        ) : null}
+
         <form className="auth-form" onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
           <input
@@ -94,6 +102,12 @@ export default function LoginForm({ redirectTo }: Props) {
             onChange={(event) => setPassword(event.target.value)}
             required
           />
+
+          <p className="forgot-password-wrap">
+            <Link className="text-link" href="/forgot-password">
+              Forgot password?
+            </Link>
+          </p>
 
           {message ? <p className="form-message">{message}</p> : null}
 

@@ -249,6 +249,23 @@ h1 {
   line-height: 1.5;
 }
 
+.form-message-success {
+  color: #166534;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  .form-message-success {
+    color: #86efac;
+  }
+}
+
+.forgot-password-wrap {
+  margin: 0.15rem 0 0.35rem;
+  font-size: 0.9rem;
+}
+
 .auth-switch {
   margin-top: 1.5rem;
   color: var(--muted);

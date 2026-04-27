@@ -174,9 +174,20 @@ export default function LockerForm({
     if (readOnly) {
       return;
     }
+    if (submitting) {
+      return;
+    }
     setError("");
     setSaveNotice("");
     setSubmitting(true);
+
+    let didNavigateToNewLocker = false;
+
+    function scheduleReEnableSave() {
+      requestAnimationFrame(() => {
+        setSubmitting(false);
+      });
+    }
 
     try {
       const {
@@ -184,7 +195,6 @@ export default function LockerForm({
       } = await supabase.auth.getUser();
       if (!user) {
         setError("You must be signed in.");
-        setSubmitting(false);
         return;
       }
 
@@ -206,12 +216,10 @@ export default function LockerForm({
       for (const row of parsedRows) {
         if (row.num === null || Number.isNaN(row.num)) {
           setError("Each item row needs a valid number.");
-          setSubmitting(false);
           return;
         }
         if (row.pr === null || Number.isNaN(row.pr) || row.pr < 0) {
           setError("Each item row needs a valid price (0 or greater).");
-          setSubmitting(false);
           return;
         }
       }
@@ -219,20 +227,17 @@ export default function LockerForm({
       const nums = parsedRows.map((r) => r.num!);
       if (new Set(nums).size !== nums.length) {
         setError("Item numbers must be unique within this locker.");
-        setSubmitting(false);
         return;
       }
 
       const ship = Number.parseFloat(shippingRate);
       if (Number.isNaN(ship) || ship < 0) {
         setError("Shipping rate must be a number (0 or greater).");
-        setSubmitting(false);
         return;
       }
 
       if (!nickname.trim()) {
         setError("Nickname is required.");
-        setSubmitting(false);
         return;
       }
 
@@ -255,7 +260,6 @@ export default function LockerForm({
 
         if (lockerError || !locker) {
           setError(lockerError?.message ?? "Could not create locker.");
-          setSubmitting(false);
           return;
         }
 
@@ -273,11 +277,11 @@ export default function LockerForm({
           );
           if (itemsError) {
             setError(itemsError.message);
-            setSubmitting(false);
             return;
           }
         }
 
+        didNavigateToNewLocker = true;
         router.push(`/dashboard/lockers/${locker.id}?saved=1`);
         router.refresh();
         return;
@@ -285,7 +289,6 @@ export default function LockerForm({
 
       if (!initialLocker) {
         setError("Missing locker.");
-        setSubmitting(false);
         return;
       }
 
@@ -301,7 +304,6 @@ export default function LockerForm({
 
       if (updateLockerError) {
         setError(updateLockerError.message);
-        setSubmitting(false);
         return;
       }
 
@@ -312,7 +314,6 @@ export default function LockerForm({
           .in("id", removedIds);
         if (delError) {
           setError(delError.message);
-          setSubmitting(false);
           return;
         }
       }
@@ -333,7 +334,6 @@ export default function LockerForm({
             .eq("locker_id", initialLocker.id);
           if (upError) {
             setError(upError.message);
-            setSubmitting(false);
             return;
           }
         } else {
@@ -348,7 +348,6 @@ export default function LockerForm({
           });
           if (insError) {
             setError(insError.message);
-            setSubmitting(false);
             return;
           }
         }
@@ -356,10 +355,12 @@ export default function LockerForm({
 
       setSaveNotice("Locker saved");
       router.refresh();
-      setSubmitting(false);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
-      setSubmitting(false);
+    } finally {
+      if (!didNavigateToNewLocker) {
+        scheduleReEnableSave();
+      }
     }
   }
 

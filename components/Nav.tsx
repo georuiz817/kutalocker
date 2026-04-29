@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import NavCartLink from "@/components/NavCartLink";
+import NavProfileMenu from "@/components/NavProfileMenu";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Nav() {
@@ -31,29 +32,20 @@ export default async function Nav() {
           <span>Kura</span>
         </Link>
 
-        <div className="nav-links">
-          {user ? (
-            <>
-              {profile?.role === "buyer" ? (
-                <Link href="/orders">Orders</Link>
-              ) : null}
-              {profile?.role === "seller" ? (
-                <Link href="/dashboard">Dashboard</Link>
-              ) : null}
-              <span className="user-email">{user.email}</span>
-              <form action={signOut}>
-                <button className="link-button" type="submit">
-                  Log out
-                </button>
-              </form>
-            </>
-          ) : (
-            <>
+        <div className="nav-end">
+          {!user ? (
+            <div className="nav-auth">
               <Link href="/login">Log in</Link>
               <Link className="button-link" href="/signup">
                 Sign up
               </Link>
-            </>
+            </div>
+          ) : (
+            <NavProfileMenu
+              email={user.email ?? ""}
+              role={profile?.role}
+              signOutAction={signOut}
+            />
           )}
           <NavCartLink />
         </div>

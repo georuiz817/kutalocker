@@ -2,6 +2,10 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import type { Json } from "@/lib/database.types";
+import {
+  sendBuyerOrderConfirmationEmail,
+  sendSellerNewOrderEmail,
+} from "@/lib/order-emails";
 import { getStripe } from "@/lib/stripe";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 
@@ -109,7 +113,7 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
 
   const { data: itemRows, error: itemsLoadError } = await admin
     .from("items")
-    .select("id, locker_id, sold, price")
+    .select("id, locker_id, sold, price, number, name")
     .in("id", itemIds)
     .eq("locker_id", lockerId);
 
@@ -121,6 +125,16 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
     if (row.sold) {
       throw new Error("An item was already sold");
     }
+  }
+
+  const { data: lockerRow, error: lockerErr } = await admin
+    .from("lockers")
+    .select("number, nickname, shipping_rate, seller_id")
+    .eq("id", lockerId)
+    .maybeSingle();
+
+  if (lockerErr || !lockerRow) {
+    throw new Error("Locker not found for fulfillment");
   }
 
   const subtotal = roundMoney(
@@ -173,6 +187,46 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
 
   if (markError || !marked || marked.length !== itemIds.length) {
     throw new Error("Could not mark items as sold");
+  }
+
+  const [{ data: buyerUser }, { data: sellerUser }] = await Promise.all([
+    admin.from("users").select("email").eq("id", buyerId).maybeSingle(),
+    admin
+      .from("users")
+      .select("email")
+      .eq("id", lockerRow.seller_id)
+      .maybeSingle(),
+  ]);
+
+  const emailItems = itemRows.map((r) => ({
+    number: Number(r.number),
+    name: r.name ?? null,
+    price: Number(r.price),
+  }));
+  const shippingTotal = roundMoney(Number(lockerRow.shipping_rate));
+
+  if (buyerUser?.email) {
+    void sendBuyerOrderConfirmationEmail({
+      to: buyerUser.email,
+      lockerNickname: lockerRow.nickname,
+      lockerNumber: lockerRow.number,
+      items: emailItems,
+      shippingTotal,
+      orderTotal: totalPaid,
+    }).catch((err) =>
+      console.error("Buyer confirmation email promise rejected:", err)
+    );
+  }
+
+  if (sellerUser?.email) {
+    void sendSellerNewOrderEmail({
+      to: sellerUser.email,
+      items: emailItems,
+      shippingAddress,
+      orderTotal: totalPaid,
+    }).catch((err) =>
+      console.error("Seller notification email promise rejected:", err)
+    );
   }
 }
 

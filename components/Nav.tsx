@@ -32,7 +32,6 @@ export default async function Nav() {
         </Link>
 
         <div className="nav-links">
-          <NavCartLink />
           {user ? (
             <>
               {profile?.role === "buyer" ? (
@@ -56,6 +55,7 @@ export default async function Nav() {
               </Link>
             </>
           )}
+          <NavCartLink />
         </div>
       </nav>
     </header>

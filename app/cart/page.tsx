@@ -153,13 +153,6 @@ export default function CartPage() {
       <p className="muted small cart-checkout-note">
         Secure payment via Stripe. You will be asked for a shipping address at checkout.
       </p>
-      {process.env.NODE_ENV === "development" ? (
-        <p className="muted small cart-stripe-test-hint" role="note">
-          Stripe test mode: pay with card{" "}
-          <span className="mono">4242 4242 4242 4242</span>, any future expiry date, and
-          any 3-digit CVC.
-        </p>
-      ) : null}
     </main>
   );
 }

@@ -39,10 +39,9 @@ export default async function HomePage() {
   return (
     <main className="page-shell home-page">
       <header className="home-header">
-        <p className="eyebrow">Marketplace</p>
         <h1>Active lockers</h1>
         <p className="muted">
-          Browse seller lockers. Add items to your cart as a buyer.
+          Browse and purchase items from active lockers.
         </p>
       </header>
 

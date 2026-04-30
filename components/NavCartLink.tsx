@@ -10,8 +10,8 @@ export default function NavCartLink() {
     <Link className="nav-cart" href="/cart" aria-label="Shopping cart">
       <span className="nav-cart-icon" aria-hidden="true">
         <svg
-          width="22"
-          height="22"
+          width="26"
+          height="26"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

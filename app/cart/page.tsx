@@ -148,11 +148,8 @@ export default function CartPage() {
         onClick={handleCheckout}
         disabled={checkoutLoading}
       >
-        {checkoutLoading ? "Redirecting…" : "Checkout with Stripe"}
+        {checkoutLoading ? "Redirecting…" : "Checkout"}
       </button>
-      <p className="muted small cart-checkout-note">
-        Secure payment via Stripe. You will be asked for a shipping address at checkout.
-      </p>
     </main>
   );
 }

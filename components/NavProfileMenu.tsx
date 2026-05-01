@@ -81,12 +81,12 @@ export default function NavProfileMenu({
         <p className="nav-profile-email">{email}</p>
         {role === "buyer" ? (
           <Link
-            href="/orders"
+            href="/account"
             className="nav-profile-link"
             role="menuitem"
             onClick={closeMobile}
           >
-            Orders
+            Account
           </Link>
         ) : null}
         {role === "seller" ? (

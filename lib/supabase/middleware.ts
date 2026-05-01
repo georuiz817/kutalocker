@@ -71,7 +71,11 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
-  if (path === "/orders" || path.startsWith("/order/confirmed")) {
+  if (
+    path === "/orders" ||
+    path === "/account" ||
+    path.startsWith("/order/confirmed")
+  ) {
     if (!user) {
       const loginUrl = request.nextUrl.clone();
       loginUrl.pathname = "/login";

@@ -154,7 +154,7 @@ export default function OrderConfirmedClient({ sessionId }: Props) {
       </p>
 
       <p>
-        <Link className="text-link" href="/orders">
+        <Link className="text-link" href="/account">
           View order history
         </Link>{" "}
         ·{" "}

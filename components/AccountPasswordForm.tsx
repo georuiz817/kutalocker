@@ -25,13 +25,9 @@ export default function AccountPasswordForm({ email }: Props) {
     setConfirmPassword("");
   }
 
-  function toggleOpen() {
-    if (open) {
-      closePasswordForm();
-    } else {
-      setError("");
-      setOpen(true);
-    }
+  function openPasswordForm() {
+    setError("");
+    setOpen(true);
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -88,71 +84,98 @@ export default function AccountPasswordForm({ email }: Props) {
   return (
     <>
       {success ? (
-        <p className="form-message form-message-success" role="status">
+        <p className="payout-success" role="status">
           {success}
         </p>
       ) : null}
 
-      <button type="button" className="button-ghost" onClick={toggleOpen}>
-        {open ? "Close" : "Change Password"}
-      </button>
+      {!open ? (
+        <button type="button" className="button-ghost" onClick={openPasswordForm}>
+          Change Password
+        </button>
+      ) : null}
 
       {open ? (
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <label htmlFor="account-current-password">Current password</label>
-          <input
-            id="account-current-password"
-            name="currentPassword"
-            type="password"
-            autoComplete="current-password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            required
-          />
+        <form className="payout-form" onSubmit={handleSubmit}>
+          <div className="payout-field">
+            <label
+              className="payout-input-label"
+              htmlFor="account-current-password"
+            >
+              Current password
+            </label>
+            <input
+              id="account-current-password"
+              className="payout-text-input"
+              name="currentPassword"
+              type="password"
+              autoComplete="current-password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              required
+            />
+          </div>
 
-          <label htmlFor="account-new-password">New password</label>
-          <input
-            id="account-new-password"
-            name="newPassword"
-            type="password"
-            autoComplete="new-password"
-            minLength={6}
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
+          <div className="payout-field">
+            <label className="payout-input-label" htmlFor="account-new-password">
+              New password
+            </label>
+            <input
+              id="account-new-password"
+              className="payout-text-input"
+              name="newPassword"
+              type="password"
+              autoComplete="new-password"
+              minLength={6}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+            />
+          </div>
 
-          <label htmlFor="account-confirm-password">Confirm new password</label>
-          <input
-            id="account-confirm-password"
-            name="confirmPassword"
-            type="password"
-            autoComplete="new-password"
-            minLength={6}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
+          <div className="payout-field">
+            <label
+              className="payout-input-label"
+              htmlFor="account-confirm-password"
+            >
+              Confirm new password
+            </label>
+            <input
+              id="account-confirm-password"
+              className="payout-text-input"
+              name="confirmPassword"
+              type="password"
+              autoComplete="new-password"
+              minLength={6}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
 
           {error ? (
-            <p className="form-message" role="alert">
+            <p className="payout-error" role="alert">
               {error}
             </p>
           ) : null}
 
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Saving…" : "Save password"}
-          </button>
-
-          <p className="muted small">
+          <div className="payout-actions">
             <button
-              type="button"
-              className="link-button text-link"
-              onClick={closePasswordForm}
+              type="submit"
+              className="button-link"
+              disabled={isSubmitting}
             >
-              Cancel
+              {isSubmitting ? "Saving…" : "Save password"}
             </button>
-          </p>
+          </div>
+
+          <button
+            type="button"
+            className="button-ghost"
+            onClick={closePasswordForm}
+          >
+            Cancel
+          </button>
         </form>
       ) : null}
     </>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import AccountPasswordForm from "@/components/AccountPasswordForm";
 import { DeleteLockerButton } from "@/components/DeleteLockerModal";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
@@ -66,6 +67,8 @@ export default async function DashboardPage() {
   if (!user) {
     redirect("/");
   }
+
+  const email = user.email ?? "";
 
   const { data: payoutRow } = await supabase
     .from("users")
@@ -255,6 +258,22 @@ export default async function DashboardPage() {
             })}
           </ul>
         )}
+      </section>
+
+      <section className="dashboard-orders" aria-labelledby="dashboard-profile-title">
+        <h2 className="dashboard-orders-title" id="dashboard-profile-title">
+          Profile
+        </h2>
+        <p className="muted small dashboard-orders-lead">
+          Email and password for this account.
+        </p>
+
+        <div className="panel seller-order-card dashboard-payout-card">
+          <p className="muted">
+            Email: <span className="mono">{email}</span>
+          </p>
+          <AccountPasswordForm email={email} />
+        </div>
       </section>
 
       <PayoutInformationCard

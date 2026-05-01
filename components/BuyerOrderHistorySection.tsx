@@ -23,46 +23,45 @@ type Props = {
 
 export default function BuyerOrderHistorySection({ orders }: Props) {
   if (!orders?.length) {
-    return <p className="muted">You have not placed an order yet.</p>;
+    return null;
   }
 
   return (
-    <ul className="orders-list">
+    <ul className="seller-orders-list">
       {orders.map((order) => {
         const locker = order.lockers;
         const oi = order.order_items;
-        const items = (oi ?? [])
-          .map((x) => x.items)
-          .filter(Boolean) as {
-          number: number;
-          name: string | null;
-          price: number;
-        }[];
         const date = new Date(order.created_at);
         return (
-          <li key={order.id} className="orders-card panel">
-            <div className="orders-card-header">
-              <p className="mono">Locker #{locker?.number}</p>
-              <p className="orders-locker-nick">{locker?.nickname}</p>
-              <p className="orders-date muted">
-                {date.toLocaleString(undefined, {
-                  dateStyle: "medium",
-                  timeStyle: "short",
-                })}
-              </p>
-            </div>
-            <p className="orders-total">
-              Total:{" "}
+          <li key={order.id} className="seller-order-card panel">
+            <p className="seller-order-date muted">
+              {date.toLocaleString(undefined, {
+                dateStyle: "medium",
+                timeStyle: "short",
+              })}
+            </p>
+            <p>
+              <span className="mono">Locker #{locker?.number}</span> —{" "}
+              {locker?.nickname}
+            </p>
+            <p>
+              <span className="muted">Total:</span>{" "}
               <span className="mono">${Number(order.total).toFixed(2)}</span>
             </p>
-            <ul className="orders-items">
-              {items.map((it) => (
-                <li key={it.number}>
-                  <span className="mono">#{it.number}</span>{" "}
-                  {it.name?.trim() ? it.name : `Item ${it.number}`} —{" "}
-                  <span className="mono">${Number(it.price).toFixed(2)}</span>
-                </li>
-              ))}
+            <ul className="seller-order-items">
+              {(oi ?? []).map((row) => {
+                const it = row.items;
+                if (!it) {
+                  return null;
+                }
+                return (
+                  <li key={row.item_id}>
+                    <span className="mono">#{it.number}</span>{" "}
+                    {it.name?.trim() ? it.name : `Item ${it.number}`} —{" "}
+                    <span className="mono">${Number(it.price).toFixed(2)}</span>
+                  </li>
+                );
+              })}
             </ul>
           </li>
         );

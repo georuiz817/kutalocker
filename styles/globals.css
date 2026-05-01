@@ -1311,12 +1311,24 @@ h1 {
 /* Seller dashboard — payout (section uses .dashboard-orders; form in .panel like order cards) */
 .dashboard-payout-card {
   max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Inline controls should match other ghost buttons; column flex would stretch them full width. */
+.dashboard-payout-card > .button-ghost {
+  align-self: flex-start;
 }
 
 .payout-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.payout-form > .button-ghost {
+  align-self: flex-start;
 }
 
 .payout-fieldset {

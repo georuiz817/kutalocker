@@ -43,32 +43,55 @@ export default async function AccountPage() {
     .eq("buyer_id", user.id)
     .order("created_at", { ascending: false });
 
+  const orderList = orders ?? [];
+
   return (
-    <main className="page-shell orders-page">
-      <div className="orders-list">
-        <div className="orders-card panel">
-          <div className="orders-card-header">
-            <p className="orders-locker-nick">Profile</p>
-          </div>
+    <main className="page-shell dashboard-page">
+      <header className="dashboard-header">
+        <div>
+          <p className="eyebrow">Your account</p>
+          <h1>Profile & orders</h1>
           <p className="muted">
-            Email on file: <span className="mono">{email}</span>
+            Manage your sign-in details and review past purchases.
+          </p>
+        </div>
+        <Link className="button-link" href="/">
+          Back to shop
+        </Link>
+      </header>
+
+      <section className="dashboard-orders" aria-labelledby="account-profile-title">
+        <h2 className="dashboard-orders-title" id="account-profile-title">
+          Profile
+        </h2>
+        <p className="muted small dashboard-orders-lead">
+          Email and password for this account.
+        </p>
+
+        <div className="panel seller-order-card dashboard-payout-card">
+          <p className="muted">
+            Email: <span className="mono">{email}</span>
           </p>
           <AccountPasswordForm email={email} />
         </div>
+      </section>
 
-        <div className="orders-card panel">
-          <div className="orders-card-header">
-            <p className="orders-locker-nick">Order History</p>
+      <section className="dashboard-orders" aria-labelledby="account-orders-title">
+        <h2 className="dashboard-orders-title" id="account-orders-title">
+          Order history
+        </h2>
+        <p className="muted small dashboard-orders-lead">
+          Items and totals from your completed checkouts.
+        </p>
+
+        {!orderList.length ? (
+          <div className="panel empty-state dashboard-orders-empty">
+            <p className="muted">You have not placed an order yet.</p>
           </div>
-          <BuyerOrderHistorySection orders={orders ?? []} />
-        </div>
-      </div>
-
-      <p>
-        <Link className="text-link" href="/">
-          Back to shop
-        </Link>
-      </p>
+        ) : (
+          <BuyerOrderHistorySection orders={orderList} />
+        )}
+      </section>
     </main>
   );
 }

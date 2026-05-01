@@ -1,5 +1,6 @@
 "use server";
 
+import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -59,44 +60,62 @@ export async function updatePayoutInfo(
   return { ok: true, message: "Payout information saved." };
 }
 
-async function freezeLockerById(lockerId: string) {
+export type DeleteLockerState = { error: string | null };
+
+export async function deleteLockerAction(
+  _prevState: DeleteLockerState,
+  formData: FormData
+): Promise<DeleteLockerState> {
+  const lockerId = formData.get("lockerId");
+  if (typeof lockerId !== "string" || !lockerId) {
+    return { error: "Invalid request." };
+  }
+
   const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    redirect("/");
+    return { error: "You must be signed in." };
   }
 
-  const { error } = await supabase
+  const { data: locker, error: lockerErr } = await supabase
     .from("lockers")
-    .update({ state: "frozen" })
+    .select("id, seller_id")
+    .eq("id", lockerId)
+    .maybeSingle();
+
+  if (lockerErr || !locker || locker.seller_id !== user.id) {
+    return { error: "Locker not found." };
+  }
+
+  const admin = createServiceRoleClient();
+  const { count, error: countErr } = await admin
+    .from("orders")
+    .select("id", { count: "exact", head: true })
+    .eq("locker_id", lockerId);
+
+  if (countErr) {
+    return { error: countErr.message };
+  }
+  if ((count ?? 0) > 0) {
+    return {
+      error:
+        "This locker has orders and can’t be deleted. Historical orders must stay on record.",
+    };
+  }
+
+  const { error: delErr } = await admin
+    .from("lockers")
+    .delete()
     .eq("id", lockerId)
     .eq("seller_id", user.id);
 
-  if (error) {
-    throw error;
+  if (delErr) {
+    return { error: delErr.message };
   }
 
   revalidatePath("/dashboard");
-  revalidatePath(`/dashboard/lockers/${lockerId}`);
-}
-
-export async function freezeLockerFromList(formData: FormData) {
-  const lockerId = formData.get("lockerId");
-  if (typeof lockerId !== "string" || !lockerId) {
-    return;
-  }
-
-  await freezeLockerById(lockerId);
-}
-
-export async function freezeLockerFromEditPage(formData: FormData) {
-  const lockerId = formData.get("lockerId");
-  if (typeof lockerId !== "string" || !lockerId) {
-    return;
-  }
-
-  await freezeLockerById(lockerId);
+  revalidatePath("/");
   redirect("/dashboard");
 }

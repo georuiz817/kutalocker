@@ -574,10 +574,10 @@ h1 {
   background: rgb(46 204 113 / 0.12);
 }
 
-.state-frozen {
-  color: #1d4ed8;
-  border-color: #93c5fd;
-  background: rgb(59 130 246 / 0.12);
+.state-unavailable {
+  color: var(--muted);
+  border-color: var(--border);
+  background: var(--background);
 }
 
 .state-sold-out {
@@ -591,12 +591,6 @@ h1 {
     color: #86efac;
     border-color: #166534;
     background: rgb(34 197 94 / 0.15);
-  }
-
-  .state-frozen {
-    color: #93c5fd;
-    border-color: #1e40af;
-    background: rgb(59 130 246 / 0.18);
   }
 
   .state-sold-out {
@@ -674,10 +668,10 @@ h1 {
   font-size: 0.95rem;
 }
 
-.banner-frozen {
-  border: 1px solid #93c5fd;
-  background: rgb(59 130 246 / 0.1);
-  color: var(--foreground);
+.banner-readonly {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
 }
 
 .banner-success {
@@ -806,7 +800,59 @@ h1 {
   margin-top: 0.5rem;
 }
 
-.freeze-block {
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  .modal-backdrop {
+    background: rgba(0, 0, 0, 0.65);
+  }
+}
+
+.modal-dialog {
+  width: min(100%, 26rem);
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: var(--card);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 0.12);
+}
+
+.modal-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.15rem, 3vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
+.modal-body {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.modal-form {
+  margin-top: 1.25rem;
+}
+
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.locker-form-danger-zone {
   margin-top: 2rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);

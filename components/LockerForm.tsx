@@ -1,6 +1,6 @@
 "use client";
 
-import { freezeLockerFromEditPage } from "@/app/dashboard/actions";
+import { DeleteLockerButton } from "@/components/DeleteLockerModal";
 import { createClient } from "@/lib/supabase";
 import type { Tables } from "@/lib/database.types";
 import { LOCKER_PHOTOS_BUCKET } from "@/lib/storage";
@@ -46,7 +46,7 @@ export default function LockerForm({
 }: LockerFormProps) {
   const router = useRouter();
   const supabase = createClient();
-  const readOnly = mode === "edit" && initialLocker?.state === "frozen";
+  const readOnly = mode === "edit" && initialLocker?.state !== "active";
   const lockerId = initialLocker?.id;
 
   const [nickname, setNickname] = useState(initialLocker?.nickname ?? "");
@@ -376,8 +376,8 @@ export default function LockerForm({
       </div>
 
       {readOnly ? (
-        <div className="banner banner-frozen" role="status">
-          This locker is frozen and can no longer be edited.
+        <div className="banner banner-readonly" role="status">
+          This locker can no longer be edited.
         </div>
       ) : null}
 
@@ -539,17 +539,15 @@ export default function LockerForm({
           </div>
         </form>
 
-        {mode === "edit" && initialLocker && initialLocker.state === "active" ? (
-          <form action={freezeLockerFromEditPage} className="freeze-block">
-            <input type="hidden" name="lockerId" value={initialLocker.id} />
+        {mode === "edit" && initialLocker ? (
+          <div className="locker-form-danger-zone">
             <p className="muted small">
-              Freezing locks the listing. You will not be able to edit this
-              locker afterward.
+              Permanently delete this locker and all of its items. You can only
+              delete if this locker has no orders. The locker number will not be
+              reused.
             </p>
-            <button type="submit" className="button-danger">
-              Freeze locker
-            </button>
-          </form>
+            <DeleteLockerButton lockerId={initialLocker.id} />
+          </div>
         ) : null}
       </section>
     </main>

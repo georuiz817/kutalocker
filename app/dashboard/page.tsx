@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { DeleteLockerButton } from "@/components/DeleteLockerModal";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import { freezeLockerFromList } from "./actions";
 import PayoutInformationCard from "./PayoutInformationCard";
 
 type ShippingAddressJson = {
@@ -29,6 +29,16 @@ function formatShippingAddress(value: unknown): string | null {
     return null;
   }
   return parts.join(" · ");
+}
+
+function lockerBadgeMeta(state: string): { label: string; className: string } {
+  if (state === "active") {
+    return { label: "Active", className: "state-active" };
+  }
+  if (state === "sold_out") {
+    return { label: "Sold out", className: "state-sold-out" };
+  }
+  return { label: "Unavailable", className: "state-unavailable" };
 }
 
 type SellerOrderRow = {
@@ -119,7 +129,8 @@ export default async function DashboardPage() {
           <p className="eyebrow">Seller dashboard</p>
           <h1>Your lockers</h1>
           <p className="muted">
-            Create a locker, add items, and freeze it when you are done listing.
+            Create a locker, add items, and remove it from the dashboard when you
+            no longer need it (only if it has no orders).
           </p>
         </div>
         <Link className="button-link" href="/dashboard/lockers/new">
@@ -146,41 +157,29 @@ export default async function DashboardPage() {
               </tr>
             </thead>
             <tbody>
-              {lockers.map((locker) => (
-                <tr key={locker.id}>
-                  <td className="mono">{locker.number}</td>
-                  <td>{locker.nickname}</td>
-                  <td>
-                    <span
-                      className={`state-badge state-${locker.state.replace(/_/g, "-")}`}
-                    >
-                      {locker.state.replace("_", " ")}
-                    </span>
-                  </td>
-                  <td className="row-actions">
-                    <Link
-                      className="button-ghost"
-                      href={`/dashboard/lockers/${locker.id}`}
-                    >
-                      Edit
-                    </Link>
-                    {locker.state === "active" ? (
-                      <form action={freezeLockerFromList}>
-                        <input
-                          type="hidden"
-                          name="lockerId"
-                          value={locker.id}
-                        />
-                        <button className="button-ghost" type="submit">
-                          Freeze
-                        </button>
-                      </form>
-                    ) : (
-                      <span className="muted small">—</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
+              {lockers.map((locker) => {
+                const badge = lockerBadgeMeta(locker.state);
+                return (
+                  <tr key={locker.id}>
+                    <td className="mono">{locker.number}</td>
+                    <td>{locker.nickname}</td>
+                    <td>
+                      <span className={`state-badge ${badge.className}`}>
+                        {badge.label}
+                      </span>
+                    </td>
+                    <td className="row-actions">
+                      <Link
+                        className="button-ghost"
+                        href={`/dashboard/lockers/${locker.id}`}
+                      >
+                        Edit
+                      </Link>
+                      <DeleteLockerButton lockerId={locker.id} />
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

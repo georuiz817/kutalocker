@@ -38,15 +38,6 @@ export default async function HomePage() {
 
   return (
     <main className="page-shell home-page">
-      <header className="home-header">
-        <h1 className="home-heading-title">
-          {"Kura Mart"}
-          {/* eslint-disable-next-line @next/next/no-img-element -- static public asset, dimensions set in CSS */}
-          <img className="home-heading-sticker" src="/HomeHeadingSticker.jpg" alt="" />
-        </h1>
-        <p className="home-header-lead">Discover Unique Items!</p>
-      </header>
-
       {list.length === 0 ? (
         <p className="muted">No active lockers yet. Check back soon.</p>
       ) : (

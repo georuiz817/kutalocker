@@ -970,7 +970,6 @@ h1 {
   --locker-polaroid-bg: #ffb3c6;
   display: flex;
   flex-direction: column;
-  height: 100%;
   box-sizing: border-box;
   border-radius: 20px;
   background: var(--locker-polaroid-bg);
@@ -989,30 +988,35 @@ h1 {
 
 .home-page .locker-card-image-wrap {
   position: relative;
+  width: 100%;
   aspect-ratio: 4 / 3;
   background: var(--border);
-  border-radius: 0.35rem;
+  border-radius: 14px;
+  overflow: hidden;
 }
 
 .home-page .locker-card-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   border: 2px solid #000;
-  border-radius: 0.35rem;
+  border-radius: 14px;
   box-sizing: border-box;
 }
 
 .home-page .locker-card-placeholder {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 0;
   display: grid;
   place-items: center;
   color: var(--muted);
   font-size: 0.9rem;
   border: 2px solid #000;
-  border-radius: 0.35rem;
+  border-radius: 14px;
   box-sizing: border-box;
 }
 

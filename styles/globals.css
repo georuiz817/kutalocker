@@ -433,7 +433,7 @@ button:disabled {
 .auth-page {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
+  padding: 2rem 1.5rem 4rem;
 }
 
 .auth-page {

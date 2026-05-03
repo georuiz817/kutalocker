@@ -870,10 +870,26 @@ h1 {
   margin-bottom: 2rem;
 }
 
-.home-page .home-header h1 {
+.home-page .home-header .home-heading-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
   font-size: clamp(2.35rem, 7vw, 3.65rem);
   letter-spacing: -0.04em;
   color: var(--foreground);
+  line-height: 1;
+}
+
+.home-page .home-header .home-heading-sticker {
+  height: 1.4em;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .home-page .home-header-lead {

@@ -977,11 +977,17 @@ h1 {
   padding: 14px 14px 18px;
   overflow: hidden;
   color: inherit;
-  transition: box-shadow 0.15s ease, filter 0.15s ease;
+  transform: rotate(0deg) scale(1);
+  transform-origin: center center;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
   text-decoration: none;
 }
 
 .home-page .locker-card:hover {
+  transform: rotate(1.5deg) scale(1.02);
   box-shadow: 0 12px 36px rgb(0 0 0 / 0.15);
   filter: brightness(0.98);
 }
@@ -1079,36 +1085,51 @@ h1 {
   color: var(--accent-foreground);
 }
 
-.locker-public .locker-hero-image {
+.locker-public .locker-public-polaroid {
+  --locker-polaroid-bg: #ffb3c6;
   width: 100%;
-  max-width: 1120px;
+  max-width: 800px;
   margin: 0 auto 1.5rem;
-  border-radius: 1rem;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background: var(--locker-polaroid-bg);
+  border: 12px solid var(--locker-polaroid-bg);
+  padding: 14px 14px 18px;
   overflow: hidden;
-  border: 1px solid var(--border);
+}
+
+.locker-public .locker-public-polaroid-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
   background: var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 120px;
-  max-height: min(78vh, 640px);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.locker-hero-img {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: min(78vh, 640px);
-  object-fit: contain;
+.locker-public .locker-public-polaroid-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   object-position: center;
+  display: block;
+  border: 2px solid #000;
+  border-radius: 12px;
+  box-sizing: border-box;
 }
 
-.locker-hero-placeholder {
-  min-height: 200px;
+.locker-public .locker-public-polaroid-placeholder {
+  position: absolute;
+  inset: 0;
   display: grid;
   place-items: center;
   color: var(--muted);
+  font-size: 0.9rem;
+  border: 2px solid #000;
+  border-radius: 12px;
+  box-sizing: border-box;
 }
 
 .locker-public-header {

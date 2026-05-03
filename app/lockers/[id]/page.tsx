@@ -2,9 +2,23 @@ import AddToCartButton from "@/components/AddToCartButton";
 import type { CartLockerMeta } from "@/components/CartProvider";
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/lib/database.types";
+import type { CSSProperties } from "react";
 import { redirect } from "next/navigation";
 
 type ItemRow = Tables<"items">;
+
+const POLAROID_BG = [
+  "#FFB3C6",
+  "#B5EAD7",
+  "#FFD6A5",
+  "#C9B8FF",
+  "#AEC6CF",
+  "#FFDAC1",
+  "#B5D5FF",
+  "#F7C5D0",
+  "#D4F0A0",
+  "#FFF5BA",
+] as const;
 
 type Props = {
   params: { id: string };
@@ -37,15 +51,27 @@ export default async function PublicLockerPage({ params }: Props) {
     shippingRate: Number(locker.shipping_rate),
   };
 
+  const polaroidIdx = ((locker.number % 10) + 10) % 10;
+  const polaroidBg = POLAROID_BG[polaroidIdx];
+
   return (
     <main className="page-shell locker-public">
-      <div className="locker-hero-image">
-        {locker.photo_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={locker.photo_url} alt="" className="locker-hero-img" />
-        ) : (
-          <div className="locker-hero-placeholder">No photo</div>
-        )}
+      <div
+        className="locker-public-polaroid"
+        style={{ "--locker-polaroid-bg": polaroidBg } as CSSProperties}
+      >
+        <div className="locker-public-polaroid-photo">
+          {locker.photo_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={locker.photo_url}
+              alt=""
+              className="locker-public-polaroid-img"
+            />
+          ) : (
+            <div className="locker-public-polaroid-placeholder">No photo</div>
+          )}
+        </div>
       </div>
 
       <header className="locker-public-header">

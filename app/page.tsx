@@ -39,10 +39,8 @@ export default async function HomePage() {
   return (
     <main className="page-shell home-page">
       <header className="home-header">
-        <h1>Active lockers</h1>
-        <p className="muted">
-          Browse and purchase items from active lockers.
-        </p>
+        <h1>Browse Lockers</h1>
+        <p className="home-header-lead">Discover Unique Items!</p>
       </header>
 
       {list.length === 0 ? (

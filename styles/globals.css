@@ -84,8 +84,8 @@ button:disabled {
   overflow: hidden;
   width: 100%;
   height: 38px;
-  background: var(--accent);
-  color: var(--accent-text);
+  background: var(--marquee-bg, #ffb3c6);
+  color: #000;
 }
 
 .marquee-animated {
@@ -96,11 +96,15 @@ button:disabled {
   display: none;
   margin: 0;
   padding: 0.5rem 1rem;
+  font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.01em;
   line-height: 1.35;
   text-align: center;
+  color: #000;
+  background: var(--marquee-bg, #ffb3c6);
 }
 
 @keyframes marquee {
@@ -130,10 +134,26 @@ button:disabled {
 .marquee-phrase {
   flex-shrink: 0;
   white-space: nowrap;
+  font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.01em;
   line-height: 38px;
+  color: #000;
+}
+
+.marquee-decor {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 38px;
+  color: #000;
+  opacity: 0.9;
+  padding: 0 0.15rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -213,13 +233,6 @@ button:disabled {
   align-self: center;
 }
 
-.site-nav .nav-auth > a:first-child {
-  display: inline-flex;
-  align-items: center;
-  line-height: 1;
-  padding: 0.25rem 0;
-}
-
 .site-nav .nav-auth .button-link {
   align-self: center;
 }
@@ -269,7 +282,22 @@ button:disabled {
   font-size: 0.95rem;
 }
 
-.nav-auth > a:first-child:hover,
+.site-nav .nav-auth .button-link {
+  color: var(--foreground);
+  background: var(--background);
+  border: 1px solid var(--foreground);
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.site-nav .nav-auth .button-link:hover {
+  color: var(--background);
+  background: var(--foreground);
+  border-color: var(--foreground);
+}
+
 .link-button:hover,
 .auth-switch a:hover {
   color: var(--foreground);

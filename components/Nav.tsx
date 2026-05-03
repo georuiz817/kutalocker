@@ -34,7 +34,9 @@ export default async function Nav() {
         <div className="nav-end">
           {!user ? (
             <div className="nav-auth">
-              <Link href="/login">Log in</Link>
+              <Link className="button-link" href="/login">
+                Log in
+              </Link>
               <Link className="button-link" href="/signup">
                 Sign up
               </Link>

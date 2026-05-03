@@ -8,6 +8,16 @@
   --accent-foreground: #ffffff;
   --accent-text: var(--accent-foreground);
   --danger: #b42318;
+  --locker-color-1: #FFB3C6;
+  --locker-color-2: #B5EAD7;
+  --locker-color-3: #FFD6A5;
+  --locker-color-4: #C9B8FF;
+  --locker-color-5: #AEC6CF;
+  --locker-color-6: #FFDAC1;
+  --locker-color-7: #B5D5FF;
+  --locker-color-8: #F7C5D0;
+  --locker-color-9: #D4F0A0;
+  --locker-color-10: #FFF5BA;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -433,7 +443,7 @@ button:disabled {
 .auth-page {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 0.5rem 1.5rem 4rem;
 }
 
 .auth-page {
@@ -956,65 +966,73 @@ h1 {
   }
 }
 
-.locker-card {
+.home-page .locker-card {
+  --locker-polaroid-bg: #ffb3c6;
   display: flex;
   flex-direction: column;
   height: 100%;
-  border: 1px solid var(--border);
-  border-radius: 1rem;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background: var(--locker-polaroid-bg);
+  border: 12px solid var(--locker-polaroid-bg);
+  padding: 14px 14px 18px;
   overflow: hidden;
-  background: var(--card);
   color: inherit;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: box-shadow 0.15s ease, filter 0.15s ease;
+  text-decoration: none;
 }
 
-.locker-card:hover {
-  border-color: var(--foreground);
-  box-shadow: 0 12px 40px rgb(0 0 0 / 0.08);
+.home-page .locker-card:hover {
+  box-shadow: 0 12px 36px rgb(0 0 0 / 0.15);
+  filter: brightness(0.98);
 }
 
-.locker-card-image-wrap {
+.home-page .locker-card-image-wrap {
+  position: relative;
   aspect-ratio: 4 / 3;
   background: var(--border);
+  border-radius: 0.35rem;
 }
 
-.locker-card-image {
+.home-page .locker-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  border: 2px solid #000;
+  border-radius: 0.35rem;
+  box-sizing: border-box;
 }
 
-.locker-card-placeholder {
+.home-page .locker-card-placeholder {
   width: 100%;
   height: 100%;
   display: grid;
   place-items: center;
   color: var(--muted);
   font-size: 0.9rem;
+  border: 2px solid #000;
+  border-radius: 0.35rem;
+  box-sizing: border-box;
 }
 
-.locker-card-body {
-  padding: 1rem 1.15rem 1.25rem;
-  display: grid;
-  gap: 0.35rem;
-}
-
-.locker-card-number {
-  font-size: 0.85rem;
-  color: var(--muted);
-  font-weight: 700;
-}
-
-.locker-card-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.locker-card-meta {
-  font-size: 0.9rem;
-  color: var(--muted);
+.home-page .locker-card-label-pill {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 1;
+  max-width: calc(100% - 16px);
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  background: var(--locker-polaroid-bg);
+  color: #000;
+  border: 1px solid #000;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nav-cart {

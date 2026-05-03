@@ -26,7 +26,7 @@ export default async function Nav() {
     <header className="site-header">
       <nav className="site-nav" aria-label="Main navigation">
         <Link className="home-heading-title" href="/">
-          {"Kura Market"}
+          {"Kura Mart"}
           {/* eslint-disable-next-line @next/next/no-img-element -- static public asset, dimensions set in CSS */}
           <img className="home-heading-sticker" src="/HomeHeadingSticker.jpg" alt="" />
         </Link>

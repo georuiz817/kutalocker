@@ -1,5 +1,16 @@
-const MARQUEE_TEXT =
+const MARQUEE_BASE =
   "Welcome to the opening of Kura Market. Shop, sell, and explore what people have to offer.";
+
+function withSentenceSparkles(text: string): string {
+  return text
+    .split(/(?<=\.)\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((s) => `${s}✨`)
+    .join(" ");
+}
+
+const MARQUEE_TEXT = withSentenceSparkles(MARQUEE_BASE);
 
 const MARQUEE_REPEATS = 4;
 
@@ -8,7 +19,7 @@ export default function MarqueeBanner() {
     <div
       className="marquee-banner"
       role="region"
-      aria-label={MARQUEE_TEXT}
+      aria-label={MARQUEE_BASE}
     >
       <div className="marquee-animated" aria-hidden="true">
         <div className="marquee-track">

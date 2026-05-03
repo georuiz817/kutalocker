@@ -1,20 +1,22 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/lib/database.types";
 
 type LockerRow = Tables<"lockers">;
 
-function countAvailableByLocker(
-  items: { locker_id: string; sold: boolean }[] | null
-): Map<string, number> {
-  const map = new Map<string, number>();
-  for (const row of items ?? []) {
-    if (!row.sold) {
-      map.set(row.locker_id, (map.get(row.locker_id) ?? 0) + 1);
-    }
-  }
-  return map;
-}
+const POLAROID_BG = [
+  "#FFB3C6",
+  "#B5EAD7",
+  "#FFD6A5",
+  "#C9B8FF",
+  "#AEC6CF",
+  "#FFDAC1",
+  "#B5D5FF",
+  "#F7C5D0",
+  "#D4F0A0",
+  "#FFF5BA",
+] as const;
 
 export default async function HomePage() {
   const supabase = createClient();
@@ -25,16 +27,6 @@ export default async function HomePage() {
     .order("number", { ascending: true });
 
   const list = lockers ?? [];
-  const ids = list.map((l) => l.id);
-  const { data: itemRows } =
-    ids.length > 0
-      ? await supabase
-          .from("items")
-          .select("locker_id, sold")
-          .in("locker_id", ids)
-      : { data: [] as { locker_id: string; sold: boolean }[] };
-
-  const availableMap = countAvailableByLocker(itemRows);
 
   return (
     <main className="page-shell home-page">
@@ -44,7 +36,7 @@ export default async function HomePage() {
         <ul className="locker-grid">
           {list.map((locker) => (
             <li key={locker.id}>
-              <LockerCard locker={locker} available={availableMap.get(locker.id) ?? 0} />
+              <LockerCard locker={locker} />
             </li>
           ))}
         </ul>
@@ -53,9 +45,17 @@ export default async function HomePage() {
   );
 }
 
-function LockerCard({ locker, available }: { locker: LockerRow; available: number }) {
+function LockerCard({ locker }: { locker: LockerRow }) {
+  const idx = ((locker.number % 10) + 10) % 10;
+  const bg = POLAROID_BG[idx];
+  const nickname = locker.nickname?.trim();
+
   return (
-    <Link className="locker-card" href={`/lockers/${locker.id}`}>
+    <Link
+      className="locker-card"
+      href={`/lockers/${locker.id}`}
+      style={{ "--locker-polaroid-bg": bg } as CSSProperties}
+    >
       <div className="locker-card-image-wrap">
         {locker.photo_url ? (
           // eslint-disable-next-line @next/next/no-img-element -- external Supabase URLs
@@ -69,16 +69,10 @@ function LockerCard({ locker, available }: { locker: LockerRow; available: numbe
             No photo
           </div>
         )}
-      </div>
-      <div className="locker-card-body">
-        <p className="locker-card-number mono">#{locker.number}</p>
-        <h2 className="locker-card-title">{locker.nickname}</h2>
-        <p className="locker-card-meta">
-          Shipping: ${Number(locker.shipping_rate).toFixed(2)}
-        </p>
-        <p className="locker-card-meta">
-          {available} item{available === 1 ? "" : "s"} available
-        </p>
+        <span className="locker-card-label-pill">
+          #{locker.number}
+          {nickname ? ` ${nickname}` : ""}
+        </span>
       </div>
     </Link>
   );

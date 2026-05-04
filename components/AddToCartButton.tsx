@@ -55,13 +55,19 @@ export default function AddToCartButton({ locker, item }: Props) {
   }
 
   return (
-    <div className="add-to-cart-wrap">
-      <button type="button" className="button-link add-to-cart-btn" onClick={handleClick}>
-        {added ? "Added" : "Add to cart"}
+    <div className="add-to-cart-wrap add-to-cart-wrap--price-tag">
+      <button
+        type="button"
+        className="price-tag-add-btn"
+        onClick={handleClick}
+        aria-label={added ? "Added to cart" : "Add to cart"}
+      >
+        <span aria-hidden>{added ? "✓" : "+"}</span>
       </button>
       {lockerWarning ? (
         <p className="cart-warning" role="alert">
-          Only items from the same locker can be added to your cart at once. Please complete or clear your current cart first.
+          Only items from the same locker can be added to your cart at once.
+          Please complete or clear your current cart first.
         </p>
       ) : null}
       {authMessage ? (

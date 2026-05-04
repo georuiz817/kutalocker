@@ -20,6 +20,8 @@ const POLAROID_BG = [
   "#FFF5BA",
 ] as const;
 
+const KAWAII_DECOR = ["✦", "♡", "✿"] as const;
+
 type Props = {
   params: { id: string };
 };
@@ -55,11 +57,11 @@ export default async function PublicLockerPage({ params }: Props) {
   const polaroidBg = POLAROID_BG[polaroidIdx];
 
   return (
-    <main className="page-shell locker-public">
-      <div
-        className="locker-public-polaroid"
-        style={{ "--locker-polaroid-bg": polaroidBg } as CSSProperties}
-      >
+    <main
+      className="page-shell locker-public"
+      style={{ "--locker-polaroid-bg": polaroidBg } as CSSProperties}
+    >
+      <div className="locker-public-polaroid">
         <div className="locker-public-polaroid-photo">
           {locker.photo_url ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -87,9 +89,14 @@ export default async function PublicLockerPage({ params }: Props) {
         <h2 id="items-heading" className="items-section-title">
           Items
         </h2>
-        <ol className="public-item-list">
-          {list.map((item) => (
-            <PublicItemRow key={item.id} item={item} locker={cartLocker} />
+        <ol className="public-item-list price-tag-grid">
+          {list.map((item, index) => (
+            <PublicItemRow
+              key={item.id}
+              item={item}
+              locker={cartLocker}
+              decorIndex={index}
+            />
           ))}
         </ol>
       </section>
@@ -100,37 +107,47 @@ export default async function PublicLockerPage({ params }: Props) {
 function PublicItemRow({
   item,
   locker,
+  decorIndex,
 }: {
   item: ItemRow;
   locker: CartLockerMeta;
+  decorIndex: number;
 }) {
+  const decor = KAWAII_DECOR[decorIndex % KAWAII_DECOR.length];
+  const displayName = item.name?.trim() ? item.name : `Item ${item.number}`;
+
   return (
     <li
-      className={`public-item${item.sold ? " public-item-sold" : ""}`}
-      data-item-number={item.number}
+      className={`price-tag-item${item.sold ? " price-tag-item-sold" : ""}`}
     >
-      <div className="public-item-main">
-        <span className="public-item-index mono">{item.number}.</span>
-        <div className="public-item-body">
-          <div className="public-item-title-row">
-            <span className="public-item-name">
-              {item.name?.trim() ? item.name : `Item ${item.number}`}
-            </span>
-            <span className="public-item-price mono">
-              ${Number(item.price).toFixed(2)}
-            </span>
-          </div>
+      <span
+        className={`price-tag-float-decor price-tag-float-decor-${decorIndex % 3}`}
+        aria-hidden
+      >
+        {decor}
+      </span>
+      <div className="price-tag-card">
+        <span className="price-tag-punch" aria-hidden />
+        <div className="price-tag-badge">ITEM #{item.number}</div>
+        <div className="price-tag-middle">
+          <span className="price-tag-name">{displayName}</span>
           {item.description?.trim() ? (
-            <p className="public-item-desc muted">{item.description}</p>
+            <p className="price-tag-desc">{item.description}</p>
           ) : null}
-          {item.sold ? (
-            <span className="sold-badge" aria-label="Sold">
-              Sold
-            </span>
-          ) : (
+        </div>
+        <div className="price-tag-footer">
+          <span className="price-tag-price mono">
+            ${Number(item.price).toFixed(2)}
+          </span>
+          {item.sold ? null : (
             <AddToCartButton locker={locker} item={item} />
           )}
         </div>
+        {item.sold ? (
+          <span className="price-tag-sold-stamp" aria-hidden>
+            SOLD
+          </span>
+        ) : null}
       </div>
     </li>
   );

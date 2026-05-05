@@ -20,8 +20,6 @@ const POLAROID_BG = [
   "#FFF5BA",
 ] as const;
 
-const KAWAII_DECOR = ["✦", "♡", "✿"] as const;
-
 type Props = {
   params: { id: string };
 };
@@ -90,13 +88,8 @@ export default async function PublicLockerPage({ params }: Props) {
           Items
         </h2>
         <ol className="public-item-list price-tag-grid">
-          {list.map((item, index) => (
-            <PublicItemRow
-              key={item.id}
-              item={item}
-              locker={cartLocker}
-              decorIndex={index}
-            />
+          {list.map((item) => (
+            <PublicItemRow key={item.id} item={item} locker={cartLocker} />
           ))}
         </ol>
       </section>
@@ -107,34 +100,30 @@ export default async function PublicLockerPage({ params }: Props) {
 function PublicItemRow({
   item,
   locker,
-  decorIndex,
 }: {
   item: ItemRow;
   locker: CartLockerMeta;
-  decorIndex: number;
 }) {
-  const decor = KAWAII_DECOR[decorIndex % KAWAII_DECOR.length];
-  const displayName = item.name?.trim() ? item.name : `Item ${item.number}`;
+  const name = item.name?.trim() ?? "";
+  const desc = item.description?.trim() ?? "";
+  const hasMiddle = Boolean(name || desc);
+  const nameOnly = Boolean(name && !desc);
 
   return (
     <li
       className={`price-tag-item${item.sold ? " price-tag-item-sold" : ""}`}
     >
-      <span
-        className={`price-tag-float-decor price-tag-float-decor-${decorIndex % 3}`}
-        aria-hidden
+      <div
+        className={`price-tag-card${nameOnly ? " price-tag-card--name-only" : ""}`}
       >
-        {decor}
-      </span>
-      <div className="price-tag-card">
         <span className="price-tag-punch" aria-hidden />
         <div className="price-tag-badge">ITEM #{item.number}</div>
-        <div className="price-tag-middle">
-          <span className="price-tag-name">{displayName}</span>
-          {item.description?.trim() ? (
-            <p className="price-tag-desc">{item.description}</p>
-          ) : null}
-        </div>
+        {hasMiddle ? (
+          <div className="price-tag-middle">
+            {name ? <span className="price-tag-name">{name}</span> : null}
+            {desc ? <p className="price-tag-desc">{desc}</p> : null}
+          </div>
+        ) : null}
         <div className="price-tag-footer">
           <span className="price-tag-price mono">
             ${Number(item.price).toFixed(2)}

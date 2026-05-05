@@ -71,9 +71,9 @@ export default function CartPage() {
 
   if (!cart.lines.length || !cart.locker) {
     return (
-      <main className="page-shell cart-page">
+      <main className="page-shell cart-page cart-page--empty">
         <h1>Your cart</h1>
-        <p className="muted">Your cart is empty.</p>
+        <p className="muted cart-empty-message">Your cart is empty.</p>
         <Link className="button-link" href="/">
           Browse lockers
         </Link>

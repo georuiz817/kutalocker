@@ -1177,8 +1177,18 @@ h1 {
 }
 
 .locker-shipping-callout {
-  font-size: 1.05rem;
-  margin-top: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.85rem;
+  padding: 0.3rem 0.82rem;
+  border-radius: 999px;
+  background: var(--locker-polaroid-bg, #ffb3c6);
+  border: 1px solid #000;
+  color: #000;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
 }
 
 .locker-public .locker-items-section {
@@ -1237,7 +1247,7 @@ h1 {
   padding-top: 1.15rem;
   border: 1px solid #000;
   border-radius: 14px;
-  background: var(--locker-polaroid-bg, #ffb3c6);
+  background: var(--item-tag-bg, var(--locker-polaroid-bg, #ffb3c6));
   color: #000;
   overflow: hidden;
 }
@@ -1401,14 +1411,14 @@ h1 {
 .locker-public .locker-items-section .cart-warning {
   margin: 0;
   font-size: 0.78rem;
-  color: #fda4a4;
+  color: #000;
   line-height: 1.4;
   text-align: right;
   max-width: 16rem;
 }
 
 .locker-public .locker-items-section .cart-warning a {
-  color: #fff;
+  color: #000;
   font-weight: 700;
   text-decoration: underline;
 }
@@ -1444,6 +1454,18 @@ h1 {
 .cart-page h1 {
   font-size: clamp(1.5rem, 4vw, 2rem);
   margin-bottom: 0.5rem;
+}
+
+.cart-page--empty h1 {
+  font-size: clamp(1.75rem, 4.5vw, 2.25rem);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.cart-page--empty .cart-empty-message {
+  font-size: clamp(1.0625rem, 2.4vw, 1.225rem);
+  line-height: 1.65;
+  margin: 1.35rem 0 2.25rem;
 }
 
 .cart-page-header {

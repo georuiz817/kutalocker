@@ -20,6 +20,20 @@ const POLAROID_BG = [
   "#FFF5BA",
 ] as const;
 
+/** Item sticker fill: index = item.number % 10 */
+const ITEM_TAG_PALETTE = [
+  "#B5EAD7",
+  "#C9B8FF",
+  "#FFB3C6",
+  "#FFF5BA",
+  "#AEC6CF",
+  "#FFDAC1",
+  "#B5D5FF",
+  "#F7C5D0",
+  "#D4F0A0",
+  "#FFD6A5",
+] as const;
+
 type Props = {
   params: { id: string };
 };
@@ -77,9 +91,8 @@ export default async function PublicLockerPage({ params }: Props) {
       <header className="locker-public-header">
         <p className="locker-public-number mono">#{locker.number}</p>
         <h1>{locker.nickname}</h1>
-        <p className="locker-shipping-callout">
-          Shipping (flat rate):{" "}
-          <strong>${Number(locker.shipping_rate).toFixed(2)}</strong>
+        <p className="locker-shipping-callout mono">
+          Shipping ${Number(locker.shipping_rate).toFixed(2)}
         </p>
       </header>
 
@@ -108,6 +121,8 @@ function PublicItemRow({
   const desc = item.description?.trim() ?? "";
   const hasMiddle = Boolean(name || desc);
   const nameOnly = Boolean(name && !desc);
+  const tagColorIdx = ((Number(item.number) % 10) + 10) % 10;
+  const itemTagBg = ITEM_TAG_PALETTE[tagColorIdx];
 
   return (
     <li
@@ -115,6 +130,7 @@ function PublicItemRow({
     >
       <div
         className={`price-tag-card${nameOnly ? " price-tag-card--name-only" : ""}`}
+        style={{ "--item-tag-bg": itemTagBg } as CSSProperties}
       >
         <span className="price-tag-punch" aria-hidden />
         <div className="price-tag-badge">ITEM #{item.number}</div>

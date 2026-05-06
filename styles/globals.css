@@ -1460,11 +1460,11 @@ h1 {
 
 .cf-top {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
+  flex-wrap: nowrap;
+  align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.45rem;
 }
 
 .cf-heading {
@@ -1472,10 +1472,11 @@ h1 {
   align-items: center;
   gap: 10px;
   margin: 0;
+  min-width: 0;
   font-family: var(--font-heading), system-ui, sans-serif;
   font-size: clamp(2rem, 6vw, 3rem);
   font-weight: 700;
-  line-height: 1.08;
+  line-height: 1;
   letter-spacing: -0.04em;
   color: var(--foreground);
 }
@@ -1494,6 +1495,8 @@ h1 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  align-self: center;
+  flex-shrink: 0;
   min-height: 2rem;
   padding: 0 0.85rem;
   border-radius: 999px;

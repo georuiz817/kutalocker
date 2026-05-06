@@ -72,11 +72,54 @@ export default function CartPage() {
   if (!cart.lines.length || !cart.locker) {
     return (
       <main className="page-shell cart-page cart-page--empty">
-        <h1>Your cart</h1>
-        <p className="muted cart-empty-message">Your cart is empty.</p>
-        <Link className="button-link" href="/">
-          Browse lockers
-        </Link>
+        <div className="cart-empty-stage">
+          <img
+            className="cart-empty-deco cart-empty-deco--a"
+            src="/stickers/peach/peachStar.png"
+            alt=""
+            width={48}
+            height={48}
+          />
+          <img
+            className="cart-empty-deco cart-empty-deco--b"
+            src="/stickers/pink/blushPinkghost.png"
+            alt=""
+            width={48}
+            height={48}
+          />
+          <img
+            className="cart-empty-deco cart-empty-deco--c"
+            src="/stickers/mint/mineGreenToast.png"
+            alt=""
+            width={48}
+            height={48}
+          />
+          <img
+            className="cart-empty-deco cart-empty-deco--d"
+            src="/stickers/peach/peachCat.png"
+            alt=""
+            width={48}
+            height={48}
+          />
+          <div className="cart-empty-panel">
+            <img
+              className="cart-empty-hero"
+              src="/stickers/mint/mintGreenCat.png"
+              alt=""
+              width={180}
+              height={120}
+            />
+            <h1 className="cart-empty-title">
+              Your cart is empty... for now! ✦
+            </h1>
+            <p className="cart-empty-sub">
+              Go explore the lockers and find something special ♡
+            </p>
+            <Link className="cart-empty-browse-btn" href="/">
+              Browse lockers
+            </Link>
+          </div>
+        </div>
       </main>
     );
   }

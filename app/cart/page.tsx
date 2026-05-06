@@ -159,7 +159,11 @@ export default function CartPage() {
   return (
     <main className="page-shell cart-page cart-page--filled">
       <div className="cf-top">
-        <h1 className="cf-heading">Your Cart</h1>
+        <h1 className="cf-heading">
+          Cart
+          {/* eslint-disable-next-line @next/next/no-img-element -- static public asset, dimensions set in CSS */}
+          <img className="cf-heading-pixels" src="/cartpixels.png" alt="" />
+        </h1>
         <button
           type="button"
           className="cf-clear"

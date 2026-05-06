@@ -1455,6 +1455,7 @@ h1 {
 
 .cart-page--filled {
   max-width: 520px;
+  padding-top: clamp(2.5rem, 8vh, 5.5rem);
 }
 
 .cf-top {
@@ -1467,6 +1468,9 @@ h1 {
 }
 
 .cf-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   margin: 0;
   font-family: var(--font-heading), system-ui, sans-serif;
   font-size: clamp(2rem, 6vw, 3rem);
@@ -1474,6 +1478,16 @@ h1 {
   line-height: 1.08;
   letter-spacing: -0.04em;
   color: var(--foreground);
+}
+
+.cf-heading-pixels {
+  height: 1.8em;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .cf-clear {

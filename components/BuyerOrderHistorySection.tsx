@@ -27,42 +27,55 @@ export default function BuyerOrderHistorySection({ orders }: Props) {
   }
 
   return (
-    <ul className="seller-orders-list">
+    <ul className="account-orders-list">
       {orders.map((order) => {
         const locker = order.lockers;
         const oi = order.order_items;
         const date = new Date(order.created_at);
         return (
-          <li key={order.id} className="seller-order-card panel">
-            <p className="seller-order-date muted">
-              {date.toLocaleString(undefined, {
-                dateStyle: "medium",
-                timeStyle: "short",
-              })}
-            </p>
-            <p>
-              <span className="mono">Locker #{locker?.number}</span> —{" "}
-              {locker?.nickname}
-            </p>
-            <p>
-              <span className="muted">Total:</span>{" "}
-              <span className="mono">${Number(order.total).toFixed(2)}</span>
-            </p>
-            <ul className="seller-order-items">
-              {(oi ?? []).map((row) => {
-                const it = row.items;
-                if (!it) {
-                  return null;
-                }
-                return (
-                  <li key={row.item_id}>
-                    <span className="mono">#{it.number}</span>{" "}
-                    {it.name?.trim() ? it.name : `Item ${it.number}`} —{" "}
-                    <span className="mono">${Number(it.price).toFixed(2)}</span>
-                  </li>
-                );
-              })}
-            </ul>
+          <li key={order.id} className="receipt">
+            <div className="receipt-edge receipt-edge--top" aria-hidden="true" />
+            <div className="receipt-body">
+              <div className="receipt-header">
+                <span className="receipt-store">KURA MARKET</span>
+                <div className="receipt-header-line" aria-hidden="true" />
+              </div>
+              <p className="receipt-meta">
+                {date.toLocaleString(undefined, {
+                  dateStyle: "medium",
+                  timeStyle: "short",
+                })}
+              </p>
+              <p className="receipt-meta">
+                Locker #{locker?.number} — {locker?.nickname}
+              </p>
+              <ul className="receipt-items">
+                {(oi ?? []).map((row) => {
+                  const it = row.items;
+                  if (!it) {
+                    return null;
+                  }
+                  return (
+                    <li key={row.item_id} className="receipt-item">
+                      <span className="receipt-item-name">
+                        #{it.number} {it.name?.trim() ? it.name : `Item ${it.number}`}
+                      </span>
+                      <span className="receipt-item-dots" aria-hidden="true" />
+                      <span className="receipt-item-price">
+                        ${Number(it.price).toFixed(2)}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="receipt-total">
+                <span className="receipt-total-label">TOTAL</span>
+                <span className="receipt-total-amount">
+                  ${Number(order.total).toFixed(2)}
+                </span>
+              </p>
+            </div>
+            <div className="receipt-edge receipt-edge--bottom" aria-hidden="true" />
           </li>
         );
       })}

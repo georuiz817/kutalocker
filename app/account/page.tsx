@@ -46,47 +46,63 @@ export default async function AccountPage() {
   const orderList = orders ?? [];
 
   return (
-    <main className="page-shell dashboard-page">
-      <header className="dashboard-header">
+    <main className="page-shell account-page">
+      <img
+        className="account-deco account-deco--a"
+        src="/stickers/peach/peachStar.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        className="account-deco account-deco--b"
+        src="/stickers/mint/mintGreenCat.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        className="account-deco account-deco--c"
+        src="/stickers/pink/blushPinkghost.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        className="account-deco account-deco--d"
+        src="/stickers/peach/peachCat.png"
+        alt=""
+        aria-hidden="true"
+      />
+
+      <header className="account-header">
         <div>
           <p className="eyebrow">Your account</p>
-          <h1>Profile & orders</h1>
-          <p className="muted">
-            Manage your sign-in details and review past purchases.
-          </p>
+          <h1 className="account-title">Profile & orders</h1>
         </div>
-        <Link className="button-link" href="/">
+        <Link className="account-back-btn" href="/">
           Back to shop
         </Link>
       </header>
 
-      <section className="dashboard-orders" aria-labelledby="account-profile-title">
-        <h2 className="dashboard-orders-title" id="account-profile-title">
+      <section className="account-section account-profile-section" aria-labelledby="account-profile-title">
+        <h2 className="account-section-title" id="account-profile-title">
           Profile
         </h2>
-        <p className="muted small dashboard-orders-lead">
-          Email and password for this account.
-        </p>
 
-        <div className="panel seller-order-card dashboard-payout-card">
-          <p className="muted">
+        <div className="account-profile-card">
+          <p className="account-email">
             Email: <span className="mono">{email}</span>
           </p>
           <AccountPasswordForm email={email} />
         </div>
       </section>
 
-      <section className="dashboard-orders" aria-labelledby="account-orders-title">
-        <h2 className="dashboard-orders-title" id="account-orders-title">
+      <section className="account-section account-orders-section" aria-labelledby="account-orders-title">
+        <h2 className="account-section-title" id="account-orders-title">
           Order history
         </h2>
-        <p className="muted small dashboard-orders-lead">
-          Items and totals from your completed checkouts.
-        </p>
 
         {!orderList.length ? (
-          <div className="panel empty-state dashboard-orders-empty">
-            <p className="muted">You have not placed an order yet.</p>
+          <div className="account-orders-empty">
+            <p>You have not placed an order yet.</p>
           </div>
         ) : (
           <BuyerOrderHistorySection orders={orderList} />

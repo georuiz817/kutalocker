@@ -90,7 +90,7 @@ export default function AccountPasswordForm({ email }: Props) {
       ) : null}
 
       {!open ? (
-        <button type="button" className="button-ghost" onClick={openPasswordForm}>
+        <button type="button" className="account-change-pw-btn" onClick={openPasswordForm}>
           Change Password
         </button>
       ) : null}

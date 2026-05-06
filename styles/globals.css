@@ -1695,6 +1695,414 @@ h1 {
   text-decoration: underline;
 }
 
+/* Account page — kawaii redesign */
+.account-page {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.account-deco {
+  position: absolute;
+  z-index: 0;
+  width: 2.5rem;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.85;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.account-deco--a {
+  top: 4rem;
+  right: 2rem;
+  transform: rotate(12deg);
+}
+
+.account-deco--b {
+  top: 18rem;
+  left: 0.5rem;
+  transform: rotate(-8deg);
+  width: 3rem;
+}
+
+.account-deco--c {
+  bottom: 22rem;
+  right: 1rem;
+  transform: rotate(15deg);
+}
+
+.account-deco--d {
+  bottom: 6rem;
+  left: 1.5rem;
+  transform: rotate(-12deg);
+}
+
+.account-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.account-title {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  margin: 0 0 0.5rem;
+}
+
+
+
+.account-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.25rem;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid #000;
+  font-weight: 650;
+  color: #fff;
+  background: #000;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.account-back-btn:hover {
+  color: #000;
+  background: #fff;
+}
+
+.account-section {
+  position: relative;
+  z-index: 1;
+  margin-top: 2rem;
+  padding: 1.75rem;
+  border-radius: 20px;
+  max-width: 640px;
+}
+
+.account-profile-section {
+  background: #ffb3c6;
+  border: 3px solid #ffb3c6;
+  color: #000;
+}
+
+.account-orders-section {
+  background: #b5ead7;
+  border: 3px solid #b5ead7;
+  color: #000;
+}
+
+.account-section-title {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.35rem;
+  color: #000;
+}
+
+.account-profile-card {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.account-email {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #000;
+}
+
+.account-email .mono {
+  font-weight: 600;
+}
+
+.account-change-pw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  min-height: 2.25rem;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid #000;
+  font-weight: 650;
+  font-family: inherit;
+  color: #fff;
+  background: #000;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.account-change-pw-btn:hover {
+  color: #000;
+  background: #fff;
+}
+
+.account-profile-section .payout-form {
+  background: rgba(255, 255, 255, 0.65);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.account-profile-section .payout-text-input {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.25);
+  color: #000;
+}
+
+.account-profile-section .payout-input-label {
+  color: #000;
+}
+
+.account-profile-section .button-link {
+  border-color: #000;
+  background: #000;
+  color: #fff;
+}
+
+.account-profile-section .button-link:hover {
+  background: #fff;
+  color: #000;
+}
+
+.account-profile-section .button-ghost {
+  color: #000;
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+.account-profile-section .button-ghost:hover {
+  border-color: #000;
+}
+
+.account-profile-section .payout-success {
+  color: #166534;
+}
+
+.account-profile-section .payout-error {
+  color: #9a2c18;
+}
+
+.account-orders-empty {
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 12px;
+  color: #000;
+}
+
+.account-orders-list {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Thermal receipt card */
+.receipt {
+  width: 100%;
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 2px 4px rgb(0 0 0 / 0.08),
+    0 8px 24px rgb(0 0 0 / 0.1);
+}
+
+.receipt-edge {
+  width: 100%;
+  height: 8px;
+  background:
+    linear-gradient(135deg, #faf9f6 25%, transparent 25%) -6px 0,
+    linear-gradient(225deg, #faf9f6 25%, transparent 25%) -6px 0,
+    linear-gradient(315deg, #faf9f6 25%, transparent 25%),
+    linear-gradient(45deg, #faf9f6 25%, transparent 25%);
+  background-size: 12px 12px;
+  background-color: transparent;
+}
+
+.receipt-edge--top {
+  background:
+    linear-gradient(135deg, transparent 75%, #faf9f6 75%) -6px 0,
+    linear-gradient(225deg, transparent 75%, #faf9f6 75%) -6px 0,
+    linear-gradient(315deg, transparent 75%, #faf9f6 75%),
+    linear-gradient(45deg, transparent 75%, #faf9f6 75%);
+  background-size: 12px 12px;
+  background-color: #b5ead7;
+}
+
+.receipt-edge--bottom {
+  background:
+    linear-gradient(135deg, #faf9f6 25%, transparent 25%) -6px 0,
+    linear-gradient(225deg, #faf9f6 25%, transparent 25%) -6px 0,
+    linear-gradient(315deg, #faf9f6 25%, transparent 25%),
+    linear-gradient(45deg, #faf9f6 25%, transparent 25%);
+  background-size: 12px 12px;
+  background-color: #b5ead7;
+}
+
+.receipt-body {
+  background: #faf9f6;
+  padding: 1.5rem 2rem 2rem;
+  color: #000;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.receipt-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.receipt-store {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.65rem;
+}
+
+.receipt-header-line {
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    #000 0,
+    #000 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+.receipt-meta {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #333;
+}
+
+.receipt-items {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0.85rem 0;
+  border-top: 1px dashed #888;
+  border-bottom: 1px dashed #888;
+}
+
+.receipt-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: baseline;
+  gap: 0 0.5rem;
+  padding: 0.45rem 0;
+  font-size: 0.85rem;
+}
+
+.receipt-item-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.receipt-item-dots {
+  flex: 1;
+  min-width: 1rem;
+  height: 0.65rem;
+  border-bottom: 1px dotted #666;
+}
+
+.receipt-item-price {
+  flex-shrink: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.receipt-total-line {
+  height: 1px;
+  margin-bottom: 0.5rem;
+  background: repeating-linear-gradient(
+    90deg,
+    #000 0,
+    #000 3px,
+    transparent 3px,
+    transparent 6px
+  );
+}
+
+.receipt-total {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.receipt-total-label {
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+.receipt-total-amount {
+  font-weight: 800;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+  .account-deco {
+    width: 2rem;
+    opacity: 0.65;
+  }
+
+  .account-deco--a {
+    top: 1rem;
+    right: 0.5rem;
+  }
+
+  .account-deco--b {
+    display: none;
+  }
+
+  .account-deco--c {
+    display: none;
+  }
+
+  .account-deco--d {
+    bottom: 2rem;
+    left: 0.5rem;
+  }
+
+  .account-section {
+    padding: 1.25rem;
+  }
+
+  .account-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 /* Order confirmation */
 .order-confirmed h1 {
   font-size: clamp(1.5rem, 4vw, 2rem);

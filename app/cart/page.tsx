@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import CartEmptyPanel from "@/components/CartEmptyPanel";
 import { useCart } from "@/components/CartProvider";
 import { getBuyerAuth } from "@/lib/buyer-auth";
 
@@ -101,7 +102,7 @@ export default function CartPage() {
             width={48}
             height={48}
           />
-          <div className="cart-empty-panel">
+          <CartEmptyPanel>
             <img
               className="cart-empty-hero"
               src="/stickers/mint/mintGreenCat.png"
@@ -118,7 +119,7 @@ export default function CartPage() {
             <Link className="cart-empty-browse-btn" href="/">
               Browse lockers
             </Link>
-          </div>
+          </CartEmptyPanel>
         </div>
       </main>
     );

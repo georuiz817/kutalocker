@@ -1555,7 +1555,6 @@ h1 {
   padding: 2rem;
   text-align: center;
   border-radius: 20px;
-  background: #ffb3c6;
   border: 1px solid #000;
   color: #000;
   box-shadow: 0 12px 36px rgb(0 0 0 / 0.12);
@@ -1739,6 +1738,34 @@ h1 {
   transform: rotate(-12deg);
 }
 
+.account-deco--e {
+  top: 32%;
+  right: 6%;
+  transform: rotate(-16deg);
+  width: 2.75rem;
+}
+
+.account-deco--f {
+  top: 46%;
+  left: 12%;
+  transform: rotate(20deg);
+  width: 2.85rem;
+}
+
+.account-deco--g {
+  top: 10rem;
+  left: 38%;
+  transform: rotate(-11deg);
+  width: 2.35rem;
+}
+
+.account-deco--h {
+  bottom: 12rem;
+  right: 3%;
+  transform: rotate(9deg);
+  width: 2.8rem;
+}
+
 .account-header {
   position: relative;
   z-index: 1;
@@ -1794,16 +1821,16 @@ h1 {
 }
 
 .account-profile-section {
-  background: #ffb3c6;
-  border: 3px solid #ffb3c6;
+  border-width: 3px;
+  border-style: solid;
   color: #000;
 }
 
 .account-orders-section {
   max-width: min(1120px, 100%);
   width: 100%;
-  background: #b5ead7;
-  border: 3px solid #b5ead7;
+  border-width: 3px;
+  border-style: solid;
   color: #000;
 }
 
@@ -1997,6 +2024,11 @@ h1 {
   background-color: #b5ead7;
 }
 
+.account-orders-section .receipt-edge--top,
+.account-orders-section .receipt-edge--bottom {
+  background-color: var(--account-orders-accent, #b5ead7);
+}
+
 .receipt-body {
   background: #faf9f6;
   padding: 1.5rem 2rem 2rem;
@@ -2126,9 +2158,23 @@ h1 {
     display: none;
   }
 
+  .account-deco--e,
+  .account-deco--f,
+  .account-deco--g {
+    display: none;
+  }
+
   .account-deco--d {
     bottom: 2rem;
     left: 0.5rem;
+  }
+
+  .account-deco--h {
+    bottom: auto;
+    top: 6.5rem;
+    right: 0.35rem;
+    width: 2rem;
+    transform: rotate(6deg);
   }
 
   .account-section {

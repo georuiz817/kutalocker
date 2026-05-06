@@ -1,7 +1,8 @@
-import Link from "next/link";
+import type { CSSProperties } from "react";
 import { redirect } from "next/navigation";
 import AccountPasswordForm from "@/components/AccountPasswordForm";
 import BuyerOrderHistorySection from "@/components/BuyerOrderHistorySection";
+import { pickRandomLockerPaletteHex } from "@/lib/locker-palette";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AccountPage() {
@@ -44,6 +45,8 @@ export default async function AccountPage() {
     .order("created_at", { ascending: false });
 
   const orderList = orders ?? [];
+  const profileAccent = pickRandomLockerPaletteHex();
+  const ordersAccent = pickRandomLockerPaletteHex();
 
   return (
     <main className="page-shell account-page">
@@ -71,18 +74,45 @@ export default async function AccountPage() {
         alt=""
         aria-hidden="true"
       />
+      <img
+        className="account-deco account-deco--e"
+        src="/stickers/pink/blushPinkTea.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        className="account-deco account-deco--f"
+        src="/stickers/mint/mineGreenToast.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        className="account-deco account-deco--g"
+        src="/stickers/blush-pink/blushPinkghost.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        className="account-deco account-deco--h"
+        src="/stickers/blush-pink/blushPinkTea.png"
+        alt=""
+        aria-hidden="true"
+      />
 
       <header className="account-header">
         <div>
-          <p className="eyebrow">Your account</p>
-          <h1 className="account-title">Profile & orders</h1>
+          <h1 className="account-title">Account</h1>
         </div>
-        <Link className="account-back-btn" href="/">
-          Back to shop
-        </Link>
       </header>
 
-      <section className="account-section account-profile-section" aria-labelledby="account-profile-title">
+      <section
+        className="account-section account-profile-section"
+        aria-labelledby="account-profile-title"
+        style={{
+          backgroundColor: profileAccent,
+          borderColor: profileAccent,
+        }}
+      >
         <h2 className="account-section-title" id="account-profile-title">
           Profile
         </h2>
@@ -95,7 +125,17 @@ export default async function AccountPage() {
         </div>
       </section>
 
-      <section className="account-section account-orders-section" aria-labelledby="account-orders-title">
+      <section
+        className="account-section account-orders-section"
+        aria-labelledby="account-orders-title"
+        style={
+          {
+            "--account-orders-accent": ordersAccent,
+            backgroundColor: ordersAccent,
+            borderColor: ordersAccent,
+          } as CSSProperties
+        }
+      >
         <h2 className="account-section-title" id="account-orders-title">
           Order history
         </h2>

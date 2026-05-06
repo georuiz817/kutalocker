@@ -23,6 +23,7 @@ export type CartLockerMeta = {
   number: number;
   nickname: string;
   shippingRate: number;
+  photoUrl?: string | null;
 };
 
 export type CartState = {
@@ -93,7 +94,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           result = { ok: false, reason: "different-locker" };
           return prev;
         }
-        const nextLocker = prev.locker?.id === locker.id ? prev.locker : locker;
+        const nextLocker =
+          prev.locker?.id === locker.id ? { ...prev.locker, ...locker } : locker;
         const without = prev.lines.filter((l) => l.itemId !== line.itemId);
         return {
           locker: nextLocker,

@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CartEmptyPanel from "@/components/CartEmptyPanel";
 import { useCart } from "@/components/CartProvider";
 import { getBuyerAuth } from "@/lib/buyer-auth";
+import { lockerPaletteHexByNumber } from "@/lib/locker-palette";
+import { createClient } from "@/lib/supabase";
 
 export default function CartPage() {
   const { cart, removeLine, clearCart, hydrated } = useCart();
+  const supabase = useMemo(() => createClient(), []);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
@@ -20,10 +24,35 @@ export default function CartPage() {
   const shippingR = Math.round(shipping * 100) / 100;
   const total = Math.round((subtotalR + platformFee + shippingR) * 100) / 100;
 
-  async function handleCheckout() {
-    if (!cart.locker) {
+  useEffect(() => {
+    if (!hydrated || !cart.locker) {
+      setPhotoUrl(null);
       return;
     }
+    const l = cart.locker;
+    let cancelled = false;
+
+    if (l.photoUrl) {
+      setPhotoUrl(l.photoUrl);
+      return;
+    }
+
+    void (async () => {
+      const { data } = await supabase
+        .from("lockers")
+        .select("photo_url")
+        .eq("id", l.id)
+        .maybeSingle();
+      if (!cancelled) setPhotoUrl(data?.photo_url ?? null);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [hydrated, cart.locker?.id, cart.locker?.photoUrl, supabase]);
+
+  async function handleCheckout() {
+    if (!cart.locker) return;
     setCheckoutMessage(null);
     setCheckoutLoading(true);
     const auth = await getBuyerAuth();
@@ -125,75 +154,104 @@ export default function CartPage() {
     );
   }
 
+  const accent = lockerPaletteHexByNumber(cart.locker.number);
+
   return (
-    <main className="page-shell cart-page">
-      <div className="cart-page-header">
-        <h1>Your cart</h1>
-        <p className="muted">
-          Locker #{cart.locker.number} — {cart.locker.nickname}
-        </p>
-        <button type="button" className="button-ghost" onClick={clearCart}>
+    <main className="page-shell cart-page cart-page--filled">
+      <div className="cf-top">
+        <h1 className="cf-heading">Your Cart</h1>
+        <button
+          type="button"
+          className="cf-clear"
+          onClick={clearCart}
+        >
           Clear cart
         </button>
       </div>
 
-      <ul className="cart-lines">
-        {cart.lines.map((line) => (
-          <li key={line.itemId} className="cart-line">
-            <div>
-              <span className="mono">#{line.number}</span>{" "}
-              {line.name?.trim() ? line.name : `Item ${line.number}`}
-            </div>
-            <div className="cart-line-right">
-              <span className="mono">${line.price.toFixed(2)}</span>
-              <button
-                type="button"
-                className="link-button cart-remove"
-                onClick={() => removeLine(line.itemId)}
-              >
-                Remove
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <div className="cart-totals">
-        <div className="cart-total-row">
-          <span>Subtotal (items)</span>
-          <span className="mono">${subtotalR.toFixed(2)}</span>
-        </div>
-        <div className="cart-total-row">
-          <span>Platform fee (10%)</span>
-          <span className="mono">${platformFee.toFixed(2)}</span>
-        </div>
-        <div className="cart-total-row">
-          <span>Shipping (flat)</span>
-          <span className="mono">${shippingR.toFixed(2)}</span>
-        </div>
-        <div className="cart-total-row cart-total-strong">
-          <span>Total</span>
-          <span className="mono">${total.toFixed(2)}</span>
-        </div>
-      </div>
-
-      {checkoutMessage ? (
-        <p className="form-message cart-checkout-msg" role="status">
-          {checkoutMessage}{" "}
-          {/log in/i.test(checkoutMessage) ? (
-            <Link href={loginHref}>Log in</Link>
-          ) : null}
-        </p>
-      ) : null}
-
-      <button
-        type="button"
-        className="button-link cart-checkout-btn"
-        onClick={handleCheckout}
-        disabled={checkoutLoading}
+      <div
+        className="cf-card"
+        style={{ backgroundColor: accent, borderColor: accent }}
       >
-        {checkoutLoading ? "Redirecting…" : "Checkout"}
-      </button>
+        <div className="cf-locker-bar">
+          <div className="cf-thumb-shell">
+            {photoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={photoUrl}
+                alt=""
+                className="cf-thumb-img"
+              />
+            ) : (
+              <div className="cf-thumb-placeholder" aria-hidden />
+            )}
+          </div>
+          <div className="cf-locker-info">
+            <span className="cf-locker-num">#{cart.locker.number}</span>
+            <span className="cf-locker-nick">{cart.locker.nickname}</span>
+          </div>
+        </div>
+
+        <ul className="cf-items">
+          {cart.lines.map((line) => (
+            <li key={line.itemId} className="cf-item">
+              <div className="cf-item-left">
+                <span className="mono cf-item-num">#{line.number}</span>{" "}
+                {line.name?.trim() ? line.name : `Item ${line.number}`}
+              </div>
+              <div className="cf-item-right">
+                <span className="mono cf-item-price">
+                  ${line.price.toFixed(2)}
+                </span>
+                <button
+                  type="button"
+                  className="cf-remove"
+                  onClick={() => removeLine(line.itemId)}
+                >
+                  Remove
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="cf-totals">
+          <div className="cf-total-row">
+            <span>Subtotal</span>
+            <span className="mono">${subtotalR.toFixed(2)}</span>
+          </div>
+          <div className="cf-total-row">
+            <span>Kura Market fee</span>
+            <span className="mono">${platformFee.toFixed(2)}</span>
+          </div>
+          <div className="cf-total-row">
+            <span>Shipping</span>
+            <span className="mono">${shippingR.toFixed(2)}</span>
+          </div>
+          <div className="cf-total-row cf-total-grand">
+            <span>Total</span>
+            <span className="mono">${total.toFixed(2)}</span>
+          </div>
+        </div>
+
+        {checkoutMessage ? (
+          <p className="form-message cf-checkout-msg" role="status">
+            {checkoutMessage}{" "}
+            {/log in/i.test(checkoutMessage) ? (
+              <Link href={loginHref}>Log in</Link>
+            ) : null}
+          </p>
+        ) : null}
+
+        <button
+          type="button"
+          className="cf-checkout"
+          onClick={handleCheckout}
+          disabled={checkoutLoading}
+        >
+          {checkoutLoading ? "Redirecting…" : "Checkout"}
+        </button>
+      </div>
     </main>
   );
 }

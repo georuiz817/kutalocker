@@ -63,6 +63,7 @@ export default async function PublicLockerPage({ params }: Props) {
     number: locker.number,
     nickname: locker.nickname,
     shippingRate: Number(locker.shipping_rate),
+    photoUrl: locker.photo_url ?? null,
   };
 
   const polaroidIdx = ((locker.number % 10) + 10) % 10;

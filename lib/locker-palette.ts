@@ -16,3 +16,8 @@ export function pickRandomLockerPaletteHex(): string {
   const idx = Math.floor(Math.random() * LOCKER_PALETTE_HEX.length);
   return LOCKER_PALETTE_HEX[idx]!;
 }
+
+export function lockerPaletteHexByNumber(lockerNumber: number): string {
+  const idx = ((lockerNumber % 10) + 10) % 10;
+  return LOCKER_PALETTE_HEX[idx]!;
+}

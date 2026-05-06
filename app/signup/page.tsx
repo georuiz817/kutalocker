@@ -61,12 +61,8 @@ export default function SignUpPage() {
   return (
     <main className="auth-page">
       <section className="auth-card" aria-labelledby="signup-title">
-        <p className="eyebrow">Create account</p>
-        <h1 id="signup-title">Sign up for Kura</h1>
-        <p className="muted">
-          Choose whether you want to shop as a buyer or manage lockers as a
-          seller.
-        </p>
+         <h1 id="signup-title">Sign up</h1>
+       
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>

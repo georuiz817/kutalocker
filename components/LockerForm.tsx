@@ -449,10 +449,7 @@ export default function LockerForm({
 
           <fieldset className="items-fieldset" disabled={readOnly}>
             <legend>Items</legend>
-            <p className="muted small items-hint">
-              Number and price are required for each row you keep. Name and
-              description are optional.
-            </p>
+
             <div className="item-rows">
               {rows.map((row) => (
                 <div className="item-row" key={row.key}>

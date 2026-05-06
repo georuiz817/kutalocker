@@ -67,12 +67,8 @@ export default function LoginForm({ redirectTo, passwordReset }: Props) {
   return (
     <main className="auth-page">
       <section className="auth-card" aria-labelledby="login-title">
-        <p className="eyebrow">Welcome back</p>
-        <h1 id="login-title">Log in to Kura</h1>
-        <p className="muted">
-          Sellers go to the dashboard. Buyers return to the marketplace or the
-          page you were viewing.
-        </p>
+         <h1 id="login-title">Login</h1>
+    
 
         {passwordReset ? (
           <p className="form-message form-message-success" role="status">

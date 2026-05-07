@@ -1,4 +1,6 @@
 import { Resend } from "resend";
+import type { OrderCarrier } from "@/lib/tracking";
+import { trackingUrlForCarrier } from "@/lib/tracking";
 
 const DEFAULT_FROM = "onboarding@resend.dev";
 
@@ -201,3 +203,95 @@ export async function sendSellerNewOrderEmail(params: {
     console.error("Seller notification email failed:", err);
   }
 }
+
+export async function sendBuyerOrderShippedEmail(params: {
+  to: string;
+  carrier: OrderCarrier | string;
+  trackingNumber: string;
+  items: OrderEmailLineItem[];
+  lockerNickname: string;
+  lockerNumber: number;
+}): Promise<void> {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) {
+    console.warn(
+      "[sendBuyerOrderShippedEmail] RESEND_API_KEY missing; skipping buyer shipment notification email",
+    );
+    return;
+  }
+  const from = process.env.RESEND_FROM?.trim() || DEFAULT_FROM;
+  const {
+    to,
+    carrier,
+    trackingNumber,
+    items,
+    lockerNickname,
+    lockerNumber,
+  } = params;
+
+  console.log("[sendBuyerOrderShippedEmail] starting send", {
+    to,
+    from,
+    carrier,
+    trackingPreview: `${trackingNumber.slice(0, 8)}…`,
+    itemCount: items.length,
+  });
+
+  const trackUrl = trackingUrlForCarrier(carrier, trackingNumber);
+  const escapedTrack = escapeHtml(trackingNumber.trim());
+  let trackParagraph: string;
+  if (!trackUrl || carrier === "Other") {
+    trackParagraph = `<p style="margin:0 0 16px;font-size:16px;line-height:1.5;"><strong>Tracking number:</strong> ${escapedTrack}</p>`;
+  } else {
+    trackParagraph = `<p style="margin:0 0 16px;font-size:16px;line-height:1.5;"><strong>Tracking number:</strong> ${escapedTrack}<br/><a href="${trackUrl}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;font-weight:600;">Track your package →</a></p>`;
+  }
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:24px;font-family:system-ui,-apple-system,sans-serif;font-size:15px;color:#1a1a1a;background:#f6f6f6;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08);">
+    <tr><td style="padding:24px 28px;">
+      <h1 style="margin:0 0 8px;font-size:20px;font-weight:600;">Your order has shipped! ♡</h1>
+      <p style="margin:0 0 18px;color:#555;line-height:1.5;">Good news — your seller has shipped your Kura Market order.</p>
+      <p style="margin:0 0 8px;"><strong>Locker:</strong> ${escapeHtml(lockerNickname)} (Locker #${lockerNumber})</p>
+      <p style="margin:0 0 8px;"><strong>Carrier:</strong> ${escapeHtml(carrier)}</p>
+      ${trackParagraph}
+      <h2 style="margin:24px 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:#666;">Items in this order</h2>
+      <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:24px;">
+        <thead>
+          <tr style="background:#f9f9f9;">
+            <th align="left" style="padding:10px 12px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#666;">#</th>
+            <th align="left" style="padding:10px 12px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#666;">Item</th>
+            <th align="right" style="padding:10px 12px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#666;">Price</th>
+          </tr>
+        </thead>
+        <tbody>${lineItemsTableRows(items)}</tbody>
+      </table>
+      <p style="margin:16px 0 0;color:#555;line-height:1.6;font-size:14px;">Questions? Reach out to <a href="mailto:kuralocker@gmail.com" style="color:#2563eb;">kuralocker@gmail.com</a>.</p>
+      <p style="margin:24px 0 0;font-size:13px;color:#888;line-height:1.5;">This is an automated message from Kura Mart.</p>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  try {
+    const resend = new Resend(key);
+    const { data, error } = await resend.emails.send({
+      from,
+      to,
+      subject: "Your Kura Market order has shipped! ♡",
+      html,
+    });
+    if (error) {
+      console.error("[sendBuyerOrderShippedEmail] Resend API error:", error);
+    } else {
+      console.log("[sendBuyerOrderShippedEmail] Resend send OK", {
+        emailId: data?.id ?? null,
+      });
+    }
+  } catch (err) {
+    console.error("[sendBuyerOrderShippedEmail] exception:", err);
+  }
+}
+

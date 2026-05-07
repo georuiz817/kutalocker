@@ -2594,6 +2594,105 @@ h1 {
   font-size: 0.9rem;
 }
 
+/* Seller: order tracking */
+.seller-order-tracking {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+.seller-order-tracking-display {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+}
+
+.seller-order-tracking-line {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  flex: 1;
+  min-width: 0;
+}
+
+.seller-order-tracking-add-btn,
+.seller-order-tracking-edit-btn {
+  font-size: 0.8125rem;
+  align-self: flex-start;
+}
+
+.seller-order-tracking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 22rem;
+}
+
+.seller-order-tracking-label {
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.seller-order-tracking-input,
+.seller-order-tracking-select {
+  width: 100%;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.9rem;
+}
+
+.seller-order-tracking-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.seller-order-tracking-save {
+  align-self: flex-start;
+}
+
+.seller-order-tracking-cancel {
+  font-size: 0.8125rem;
+}
+
+.seller-order-tracking-error {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--danger);
+}
+
+.seller-order-tracking-success {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: #166534;
+}
+
+/* Buyer receipt tracking */
+.receipt-tracking-link {
+  color: #000;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.receipt-tracking-carrier {
+  font-weight: 500;
+}
+
+.account-orders-section .receipt-tracking-link {
+  color: #000;
+}
+
+.receipt-tracking-pending {
+  margin-top: 0.15rem;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

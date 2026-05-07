@@ -128,6 +128,8 @@ export type Database = {
           shipping_address: Json | null;
           stripe_checkout_session_id: string | null;
           platform_fee: number;
+          tracking_number: string | null;
+          carrier: string | null;
         };
         Insert: {
           id?: string;
@@ -138,6 +140,8 @@ export type Database = {
           shipping_address?: Json | null;
           stripe_checkout_session_id?: string | null;
           platform_fee?: number;
+          tracking_number?: string | null;
+          carrier?: string | null;
         };
         Update: {
           id?: string;
@@ -148,6 +152,8 @@ export type Database = {
           shipping_address?: Json | null;
           stripe_checkout_session_id?: string | null;
           platform_fee?: number;
+          tracking_number?: string | null;
+          carrier?: string | null;
         };
         Relationships: [
           {

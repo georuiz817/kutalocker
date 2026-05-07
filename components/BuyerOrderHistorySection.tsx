@@ -1,3 +1,5 @@
+import { trackingUrlForCarrier } from "@/lib/tracking";
+
 type LockerInfo = { number: number; nickname: string };
 
 type OrderItemRow = {
@@ -13,6 +15,8 @@ export type BuyerOrderHistoryOrder = {
   id: string;
   total: number;
   created_at: string;
+  tracking_number?: string | null;
+  carrier?: string | null;
   lockers: LockerInfo | null;
   order_items: OrderItemRow[] | null;
 };
@@ -32,6 +36,13 @@ export default function BuyerOrderHistorySection({ orders }: Props) {
         const locker = order.lockers;
         const oi = order.order_items;
         const date = new Date(order.created_at);
+        const tracking = order.tracking_number?.trim() ?? "";
+        const carrier = order.carrier ?? null;
+        const trackUrl =
+          carrier && tracking
+            ? trackingUrlForCarrier(carrier, tracking)
+            : null;
+
         return (
           <li key={order.id} className="receipt">
             <div className="receipt-edge receipt-edge--top" aria-hidden="true" />
@@ -49,6 +60,32 @@ export default function BuyerOrderHistorySection({ orders }: Props) {
               <p className="receipt-meta">
                 Locker #{locker?.number} — {locker?.nickname}
               </p>
+              {tracking && carrier ? (
+                carrier === "Other" || !trackUrl ? (
+                  <p className="receipt-meta receipt-tracking">
+                    {tracking}
+                  </p>
+                ) : (
+                  <p className="receipt-meta receipt-tracking">
+                    <a
+                      href={trackUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="receipt-tracking-link"
+                    >
+                      {tracking}
+                    </a>
+                    <span className="receipt-tracking-carrier muted">
+                      {" "}
+                      · {carrier}
+                    </span>
+                  </p>
+                )
+              ) : (
+                <p className="receipt-meta muted receipt-tracking-pending">
+                  Tracking pending
+                </p>
+              )}
               <ul className="receipt-items">
                 {(oi ?? []).map((row) => {
                   const it = row.items;

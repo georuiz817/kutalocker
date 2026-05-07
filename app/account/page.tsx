@@ -34,6 +34,8 @@ export default async function AccountPage() {
       id,
       total,
       created_at,
+      tracking_number,
+      carrier,
       lockers ( number, nickname ),
       order_items (
         item_id,

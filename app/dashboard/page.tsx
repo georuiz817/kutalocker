@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import AccountPasswordForm from "@/components/AccountPasswordForm";
 import { DeleteLockerButton } from "@/components/DeleteLockerModal";
+import SellerOrderTrackingForm from "@/components/SellerOrderTrackingForm";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import PayoutInformationCard from "./PayoutInformationCard";
@@ -48,6 +49,8 @@ type SellerOrderRow = {
   created_at: string;
   locker_id: string;
   shipping_address: unknown;
+  tracking_number: string | null;
+  carrier: string | null;
   order_items: {
     item_id: string;
     items: {
@@ -90,12 +93,14 @@ export default async function DashboardPage() {
 
   if (lockerIds.length > 0) {
     const orderSelect = `
-      id,
-      total,
-      created_at,
-      locker_id,
-      shipping_address,
-      order_items (
+          id,
+          total,
+          created_at,
+          locker_id,
+          shipping_address,
+          tracking_number,
+          carrier,
+          order_items (
         item_id,
         items ( number, name, price )
       )
@@ -253,6 +258,11 @@ export default async function DashboardPage() {
                       );
                     })}
                   </ul>
+                  <SellerOrderTrackingForm
+                    orderId={order.id}
+                    initialTracking={order.tracking_number}
+                    initialCarrier={order.carrier}
+                  />
                 </li>
               );
             })}

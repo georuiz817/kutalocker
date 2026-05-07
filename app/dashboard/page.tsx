@@ -212,9 +212,21 @@ export default async function DashboardPage() {
               const date = new Date(order.created_at);
               const address = formatShippingAddress(order.shipping_address);
               const email = buyerEmailByOrder.get(order.id);
+              const trackingPending =
+                order.tracking_number == null ||
+                !String(order.tracking_number).trim();
 
               return (
                 <li key={order.id} className="seller-order-card panel">
+                  <p className="seller-order-ship-pill-wrap">
+                    {trackingPending ? (
+                      <span className="seller-order-tracking-pending-badge">
+                        Tracking # pending
+                      </span>
+                    ) : (
+                      <span className="seller-order-shipped-badge">Shipped</span>
+                    )}
+                  </p>
                   <p className="seller-order-date muted">
                     {date.toLocaleString(undefined, {
                       dateStyle: "medium",

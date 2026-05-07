@@ -2569,11 +2569,71 @@ h1 {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 1rem;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+@media (min-width: 768px) {
+  .seller-orders-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .seller-orders-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.seller-orders-list > li {
+  min-width: 0;
 }
 
 .seller-order-card {
   font-size: 0.95rem;
+}
+
+.seller-order-ship-pill-wrap {
+  margin: 0 0 0.4rem;
+}
+
+.seller-order-tracking-pending-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: #92400e;
+  background: rgb(254 243 199 / 0.65);
+  border: 1px solid rgb(252 211 77 / 0.75);
+}
+
+.seller-order-shipped-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: #0f5d2a;
+  background: rgb(46 204 113 / 0.14);
+  border: 1px solid rgb(143 206 154 / 0.9);
+}
+
+@media (prefers-color-scheme: dark) {
+  .seller-order-tracking-pending-badge {
+    color: #fcd34d;
+    background: rgb(120 53 15 / 0.35);
+    border-color: rgb(245 158 11 / 0.45);
+  }
+
+  .seller-order-shipped-badge {
+    color: #86efac;
+    background: rgb(34 197 94 / 0.15);
+    border-color: rgb(22 101 52 / 0.85);
+  }
 }
 
 .seller-order-date {

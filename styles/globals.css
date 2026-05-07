@@ -2432,8 +2432,8 @@ h1 {
   color: var(--foreground);
 }
 
-/* Seller dashboard — payout (section uses .dashboard-orders; form in .panel like order cards) */
-.dashboard-payout-card {
+/* Seller dashboard — profile panel */
+.dashboard-profile-card {
   max-width: 640px;
   display: flex;
   flex-direction: column;
@@ -2441,8 +2441,37 @@ h1 {
 }
 
 /* Inline controls should match other ghost buttons; column flex would stretch them full width. */
-.dashboard-payout-card > .button-ghost {
+.dashboard-profile-card > .button-ghost {
   align-self: flex-start;
+}
+
+.dashboard-connect-flash {
+  margin-bottom: 1rem;
+}
+
+.dashboard-connect-warning {
+  margin-bottom: 1rem;
+  border: 1px solid rgb(251 191 36 / 0.55);
+  background: rgb(254 249 195 / 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  .dashboard-connect-warning {
+    border-color: rgb(245 158 11 / 0.45);
+    background: rgb(120 53 15 / 0.28);
+  }
+}
+
+.dashboard-payouts-connect {
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.dashboard-payouts-active-row {
+  margin: 0;
 }
 
 .payout-form {
@@ -2453,39 +2482,6 @@ h1 {
 
 .payout-form > .button-ghost {
   align-self: flex-start;
-}
-
-.payout-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-.payout-legend {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  padding: 0;
-}
-
-.payout-radios {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-}
-
-.payout-radio-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.95rem;
-  cursor: pointer;
-}
-
-.payout-radio-label input {
-  width: 1.05rem;
-  height: 1.05rem;
 }
 
 .payout-field {

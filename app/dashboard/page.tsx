@@ -5,7 +5,7 @@ import { DeleteLockerButton } from "@/components/DeleteLockerModal";
 import SellerOrderTrackingForm from "@/components/SellerOrderTrackingForm";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import PayoutInformationCard from "./PayoutInformationCard";
+import { getStripe } from "@/lib/stripe";
 
 type ShippingAddressJson = {
   name?: string | null;
@@ -61,7 +61,21 @@ type SellerOrderRow = {
   }[] | null;
 };
 
-export default async function DashboardPage() {
+type DashboardPageProps = {
+  searchParams?: { connect?: string | string[] };
+};
+
+function normalizeQueryParam(value: string | string[] | undefined) {
+  if (typeof value === "string") {
+    return value;
+  }
+  if (Array.isArray(value)) {
+    return value[0];
+  }
+  return undefined;
+}
+
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const supabase = createClient();
   const {
     data: { user },
@@ -73,11 +87,30 @@ export default async function DashboardPage() {
 
   const email = user.email ?? "";
 
-  const { data: payoutRow } = await supabase
+  const { data: me } = await supabase
     .from("users")
-    .select("payout_method, payout_handle")
+    .select("stripe_account_id, role")
     .eq("id", user.id)
     .maybeSingle();
+
+  const isSeller = me?.role === "seller";
+  const stripeAccountId = me?.stripe_account_id?.trim() ?? "";
+  let chargesEnabled = false;
+  if (isSeller && stripeAccountId.length > 0) {
+    try {
+      const stripe = getStripe();
+      const account = await stripe.accounts.retrieve(stripeAccountId);
+      chargesEnabled = account.charges_enabled === true;
+    } catch (err) {
+      console.error("[dashboard] Stripe Connect account retrieve failed:", err);
+    }
+  }
+
+  const payoutsIncomplete = isSeller && !chargesEnabled;
+
+  const connectParam = normalizeQueryParam(searchParams?.connect);
+  const connectSuccessBanner = connectParam === "success";
+  const connectRefreshBanner = connectParam === "refresh";
 
   const { data: lockers } = await supabase
     .from("lockers")
@@ -132,6 +165,24 @@ export default async function DashboardPage() {
 
   return (
     <main className="page-shell dashboard-page">
+      {connectSuccessBanner ? (
+        <p className="banner banner-success dashboard-connect-flash" role="status">
+          Payouts set up successfully.
+        </p>
+      ) : null}
+      {connectRefreshBanner ? (
+        <p className="banner banner-readonly dashboard-connect-flash" role="status">
+          Your Stripe session expired. Finish payout setup — use the button in the
+          Payouts section below.
+        </p>
+      ) : null}
+      {payoutsIncomplete ? (
+        <p className="banner dashboard-connect-warning">
+          Finish Stripe payout setup so you can receive seller payouts once Kura Market
+          sends them manually.
+        </p>
+      ) : null}
+
       <header className="dashboard-header">
         <div>
           <p className="eyebrow">Seller dashboard</p>
@@ -290,7 +341,7 @@ export default async function DashboardPage() {
           Email and password for this account.
         </p>
 
-        <div className="panel seller-order-card dashboard-payout-card">
+        <div className="panel seller-order-card dashboard-profile-card">
           <p className="muted">
             Email: <span className="mono">{email}</span>
           </p>
@@ -298,10 +349,65 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <PayoutInformationCard
-        initialPayoutMethod={payoutRow?.payout_method ?? null}
-        initialPayoutHandle={payoutRow?.payout_handle ?? null}
-      />
+      {isSeller ? (
+        <section
+          className="dashboard-orders"
+          aria-labelledby="dashboard-payouts-title"
+        >
+          <h2 className="dashboard-orders-title" id="dashboard-payouts-title">
+            Payouts
+          </h2>
+          <p className="muted small dashboard-orders-lead">
+            Connect Stripe Express to receive payouts. Buyers still pay Kura Market
+            at checkout; transfers are handled manually outside of checkout.
+          </p>
+
+          <div className="panel seller-order-card dashboard-payouts-connect">
+            {chargesEnabled ? (
+              <>
+                <p className="dashboard-payouts-active-row">
+                  <span className="seller-order-shipped-badge">
+                    Payouts Active
+                  </span>
+                </p>
+                <p className="muted small">
+                  Manage your seller profile and statements in Stripe. Opens in a
+                  new tab.{" "}
+                  <a
+                    className="text-link"
+                    href="/api/connect/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Manage payouts
+                  </a>
+                  .
+                </p>
+              </>
+            ) : stripeAccountId ? (
+              <>
+                <p className="muted small">
+                  Stripe onboarding isn&apos;t complete yet — continue where you left
+                  off.
+                </p>
+                <a className="button-link" href="/api/connect/onboard">
+                  Complete payout setup
+                </a>
+              </>
+            ) : (
+              <>
+                <p className="muted small">
+                  Link Stripe so you&apos;re ready to receive payouts when Kura Market
+                  sends them.
+                </p>
+                <a className="button-link" href="/api/connect/onboard">
+                  Set Up Payouts
+                </a>
+              </>
+            )}
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }

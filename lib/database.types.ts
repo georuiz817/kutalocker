@@ -15,24 +15,21 @@ export type Database = {
           email: string;
           role: Database["public"]["Enums"]["user_role"];
           created_at: string;
-          payout_method: Database["public"]["Enums"]["payout_method"] | null;
-          payout_handle: string | null;
+          stripe_account_id: string | null;
         };
         Insert: {
           id: string;
           email: string;
           role?: Database["public"]["Enums"]["user_role"];
           created_at?: string;
-          payout_method?: Database["public"]["Enums"]["payout_method"] | null;
-          payout_handle?: string | null;
+          stripe_account_id?: string | null;
         };
         Update: {
           id?: string;
           email?: string;
           role?: Database["public"]["Enums"]["user_role"];
           created_at?: string;
-          payout_method?: Database["public"]["Enums"]["payout_method"] | null;
-          payout_handle?: string | null;
+          stripe_account_id?: string | null;
         };
         Relationships: [];
       };
@@ -216,7 +213,6 @@ export type Database = {
     Enums: {
       user_role: "buyer" | "seller";
       locker_state: "active" | "frozen" | "sold_out";
-      payout_method: "venmo" | "paypal";
     };
     CompositeTypes: Record<string, never>;
   };

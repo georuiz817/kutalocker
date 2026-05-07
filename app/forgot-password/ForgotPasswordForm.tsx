@@ -43,8 +43,7 @@ export default function ForgotPasswordForm() {
   return (
     <main className="auth-page">
       <section className="auth-card" aria-labelledby="forgot-title">
-        <p className="eyebrow">Account</p>
-        <h1 id="forgot-title">Forgot your password</h1>
+         <h1 id="forgot-title">Forgot your password</h1>
         <p className="muted">Enter your email and we will send a reset link.</p>
 
         <form className="auth-form" onSubmit={handleSubmit}>

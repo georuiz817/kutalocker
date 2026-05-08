@@ -24,7 +24,10 @@ export default async function Nav() {
 
   return (
     <header className="site-header">
-      <nav className="site-nav" aria-label="Main navigation">
+      <nav
+        className={`site-nav${!user ? " site-nav--guest" : ""}`}
+        aria-label="Main navigation"
+      >
         <Link className="home-heading-title" href="/">
           {"Kura Mart"}
           {/* eslint-disable-next-line @next/next/no-img-element -- static public asset, dimensions set in CSS */}

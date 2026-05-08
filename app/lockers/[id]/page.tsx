@@ -1,4 +1,4 @@
-import AddToCartButton from "@/components/AddToCartButton";
+import LockerPriceTagCartSection from "@/components/LockerPriceTagCartSection";
 import type { CartLockerMeta } from "@/components/CartProvider";
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/lib/database.types";
@@ -101,7 +101,9 @@ export default async function PublicLockerPage({ params }: Props) {
       </header>
 
       <section className="locker-items-section" aria-labelledby="items-heading">
-  
+        <h2 id="items-heading" className="items-section-title">
+          Items
+        </h2>
         <ol className="public-item-list price-tag-grid">
           {list.map((item) => (
             <PublicItemRow key={item.id} item={item} locker={cartLocker} />
@@ -142,14 +144,19 @@ function PublicItemRow({
             {desc ? <p className="price-tag-desc">{desc}</p> : null}
           </div>
         ) : null}
-        <div className="price-tag-footer">
-          <span className="price-tag-price mono">
-            ${Number(item.price).toFixed(2)}
-          </span>
-          {item.sold ? null : (
-            <AddToCartButton locker={locker} item={item} />
-          )}
-        </div>
+        {item.sold ? (
+          <div className="price-tag-footer">
+            <span className="price-tag-price mono">
+              ${Number(item.price).toFixed(2)}
+            </span>
+          </div>
+        ) : (
+          <LockerPriceTagCartSection
+            locker={locker}
+            item={item}
+            price={Number(item.price)}
+          />
+        )}
         {item.sold ? (
           <span className="price-tag-sold-stamp" aria-hidden>
             SOLD

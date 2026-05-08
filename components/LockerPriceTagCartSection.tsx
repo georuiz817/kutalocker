@@ -1,0 +1,105 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { useCart, type CartLockerMeta } from "@/components/CartProvider";
+import { getBuyerAuth } from "@/lib/buyer-auth";
+import type { Tables } from "@/lib/database.types";
+
+type ItemRow = Tables<"items">;
+
+type Props = {
+  locker: CartLockerMeta;
+  item: ItemRow;
+  price: number;
+};
+
+/**
+ * Locker detail price-tag: price row + add button, then errors below the row
+ * (card grows downward; footer row layout does not reflow when errors appear).
+ */
+export default function LockerPriceTagCartSection({
+  locker,
+  item,
+  price,
+}: Props) {
+  const pathname = usePathname();
+  const { addLine } = useCart();
+  const [lockerWarning, setLockerWarning] = useState(false);
+  const [authMessage, setAuthMessage] = useState<string | null>(null);
+  const [added, setAdded] = useState(false);
+
+  const loginHref = `/login?next=${encodeURIComponent(pathname || "/")}`;
+
+  async function handleClick() {
+    setLockerWarning(false);
+    setAuthMessage(null);
+    setAdded(false);
+
+    const auth = await getBuyerAuth();
+    if (!auth.ok) {
+      if (auth.reason === "not_logged_in") {
+        setAuthMessage("Log in to add items to your cart.");
+      } else {
+        setAuthMessage("Only buyer accounts can add items to the cart.");
+      }
+      return;
+    }
+
+    const result = addLine(locker, {
+      itemId: item.id,
+      number: item.number,
+      name: item.name,
+      price: item.price,
+    });
+
+    if (!result.ok && result.reason === "different-locker") {
+      setLockerWarning(true);
+      return;
+    }
+
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 2000);
+  }
+
+  const showErrors = lockerWarning || authMessage;
+
+  return (
+    <div className="price-tag-lower">
+      <div className="price-tag-footer">
+        <span className="price-tag-price mono">
+          ${Number(price).toFixed(2)}
+        </span>
+        <div className="add-to-cart-wrap add-to-cart-wrap--price-tag">
+          <button
+            type="button"
+            className="price-tag-add-btn"
+            onClick={handleClick}
+            aria-label={added ? "Added to cart" : "Add to cart"}
+          >
+            <span aria-hidden>{added ? "✓" : "+"}</span>
+          </button>
+        </div>
+      </div>
+      {showErrors ? (
+        <div className="price-tag-card-errors" aria-live="polite">
+          {lockerWarning ? (
+            <p className="cart-warning" role="alert">
+              Only items from the same locker can be added to your cart at once.
+              Please complete or clear your current cart first.
+            </p>
+          ) : null}
+          {authMessage ? (
+            <p className="cart-warning" role="alert">
+              {authMessage}{" "}
+              {authMessage.startsWith("Log in") ? (
+                <Link href={loginHref}>Log in</Link>
+              ) : null}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  );
+}

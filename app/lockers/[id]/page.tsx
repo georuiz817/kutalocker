@@ -20,7 +20,7 @@ const POLAROID_BG = [
   "#FFF5BA",
 ] as const;
 
-/** Item sticker fill: index = item.number % 10 */
+/** Item price-tag accent: index = item.number % 10 */
 const ITEM_TAG_PALETTE = [
   "#B5EAD7",
   "#C9B8FF",

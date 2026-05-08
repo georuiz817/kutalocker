@@ -1828,7 +1828,6 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  isolation: isolate;
 }
 
 .cart-empty-panel {
@@ -1845,15 +1844,14 @@ h1 {
   box-shadow: 0 12px 36px rgb(0 0 0 / 0.12);
 }
 
-.cart-empty-hero {
+.cart-empty-illustration {
   display: block;
-  height: 120px;
   width: auto;
-  max-width: 100%;
-  margin: 0 auto 1.15rem;
+  max-width: min(260px, 92%);
+  height: auto;
+  max-height: 9rem;
+  margin: 0 auto 1.25rem;
   object-fit: contain;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
 }
 
 .cart-empty-title {
@@ -1914,136 +1912,50 @@ h1 {
   box-shadow: none;
 }
 
-.cart-empty-deco {
-  position: absolute;
-  z-index: 0;
-  width: 3rem;
-  height: auto;
-  object-fit: contain;
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.92;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-.cart-empty-deco--a {
-  top: 4%;
-  left: -2%;
-  transform: rotate(-14deg) scale(1);
-}
-
-.cart-empty-deco--b {
-  top: 10%;
-  right: -4%;
-  transform: rotate(18deg) scale(0.95);
-}
-
-.cart-empty-deco--c {
-  bottom: 14%;
-  left: 0;
-  transform: rotate(8deg) scale(0.88);
-}
-
-.cart-empty-deco--d {
-  bottom: 6%;
-  right: -3%;
-  transform: rotate(-10deg) scale(0.92);
-}
-
 @media (max-width: 520px) {
-  .cart-empty-deco {
-    width: 2.25rem;
-    opacity: 0.78;
-  }
-
-  .cart-empty-deco--a {
-    left: 0;
-  }
-
-  .cart-empty-deco--b {
-    right: 0;
-  }
-
-  .cart-empty-deco--d {
-    right: 0;
-  }
-
   .cart-empty-stage {
     min-height: auto;
   }
 }
 
-/* Account page — kawaii redesign */
+/* 404 */
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  padding-bottom: 3rem;
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+.not-found-illustration {
+  display: block;
+  width: auto;
+  max-width: min(280px, 100%);
+  height: auto;
+  object-fit: contain;
+  margin-inline: auto;
+}
+
+.not-found-page h1 {
+  margin: 0;
+}
+
+.not-found-lead {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.not-found-home {
+  margin-top: 0.25rem;
+}
+
+/* Account page */
 .account-page {
   position: relative;
   padding-bottom: 3rem;
-}
-
-.account-deco {
-  position: absolute;
-  z-index: 0;
-  width: 2.5rem;
-  height: auto;
-  object-fit: contain;
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.85;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-.account-deco--a {
-  top: 4rem;
-  right: 2rem;
-  transform: rotate(12deg);
-}
-
-.account-deco--b {
-  top: 18rem;
-  left: 0.5rem;
-  transform: rotate(-8deg);
-  width: 3rem;
-}
-
-.account-deco--c {
-  bottom: 22rem;
-  right: 1rem;
-  transform: rotate(15deg);
-}
-
-.account-deco--d {
-  bottom: 6rem;
-  left: 1.5rem;
-  transform: rotate(-12deg);
-}
-
-.account-deco--e {
-  top: 32%;
-  right: 6%;
-  transform: rotate(-16deg);
-  width: 2.75rem;
-}
-
-.account-deco--f {
-  top: 46%;
-  left: 12%;
-  transform: rotate(20deg);
-  width: 2.85rem;
-}
-
-.account-deco--g {
-  top: 10rem;
-  left: 38%;
-  transform: rotate(-11deg);
-  width: 2.35rem;
-}
-
-.account-deco--h {
-  bottom: 12rem;
-  right: 3%;
-  transform: rotate(9deg);
-  width: 2.8rem;
 }
 
 .account-header {
@@ -2462,43 +2374,6 @@ h1 {
 }
 
 @media (max-width: 640px) {
-  .account-deco {
-    width: 2rem;
-    opacity: 0.65;
-  }
-
-  .account-deco--a {
-    top: 1rem;
-    right: 0.5rem;
-  }
-
-  .account-deco--b {
-    display: none;
-  }
-
-  .account-deco--c {
-    display: none;
-  }
-
-  .account-deco--e,
-  .account-deco--f,
-  .account-deco--g {
-    display: none;
-  }
-
-  .account-deco--d {
-    bottom: 2rem;
-    left: 0.5rem;
-  }
-
-  .account-deco--h {
-    bottom: auto;
-    top: 6.5rem;
-    right: 0.35rem;
-    width: 2rem;
-    transform: rotate(6deg);
-  }
-
   .account-section {
     padding: 1.25rem;
   }

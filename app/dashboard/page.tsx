@@ -360,18 +360,16 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                   </span>
                 </p>
                 <p className="muted small">
-                  Manage your seller profile and statements in Stripe. Opens in a
-                  new tab.{" "}
-                  <a
-                    className="text-link"
-                    href="/api/connect/login"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Manage payouts
-                  </a>
-                  .
+                  Manage your seller profile and statements in Stripe.
                 </p>
+                <a
+                  className="button-link button-link--nav-auth"
+                  href="/api/connect/login"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Manage Payouts
+                </a>
               </>
             ) : stripeAccountId ? (
               <>

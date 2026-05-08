@@ -52,55 +52,6 @@ export default async function AccountPage() {
 
   return (
     <main className="page-shell account-page">
-      <img
-        className="account-deco account-deco--a"
-        src="/stickers/peach/peachStar.png"
-        alt=""
-        aria-hidden="true"
-      />
-      <img
-        className="account-deco account-deco--b"
-        src="/stickers/mint/mintGreenCat.png"
-        alt=""
-        aria-hidden="true"
-      />
-      <img
-        className="account-deco account-deco--c"
-        src="/stickers/pink/blushPinkghost.png"
-        alt=""
-        aria-hidden="true"
-      />
-      <img
-        className="account-deco account-deco--d"
-        src="/stickers/peach/peachCat.png"
-        alt=""
-        aria-hidden="true"
-      />
-      <img
-        className="account-deco account-deco--e"
-        src="/stickers/pink/blushPinkTea.png"
-        alt=""
-        aria-hidden="true"
-      />
-      <img
-        className="account-deco account-deco--f"
-        src="/stickers/mint/mineGreenToast.png"
-        alt=""
-        aria-hidden="true"
-      />
-      <img
-        className="account-deco account-deco--g"
-        src="/stickers/blush-pink/blushPinkghost.png"
-        alt=""
-        aria-hidden="true"
-      />
-      <img
-        className="account-deco account-deco--h"
-        src="/stickers/blush-pink/blushPinkTea.png"
-        alt=""
-        aria-hidden="true"
-      />
-
       <header className="account-header">
         <div>
           <h1 className="account-title">Account</h1>

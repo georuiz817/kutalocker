@@ -103,47 +103,20 @@ export default function CartPage() {
     return (
       <main className="page-shell cart-page cart-page--empty">
         <div className="cart-empty-stage">
-          <img
-            className="cart-empty-deco cart-empty-deco--a"
-            src="/stickers/peach/peachStar.png"
-            alt=""
-            width={48}
-            height={48}
-          />
-          <img
-            className="cart-empty-deco cart-empty-deco--b"
-            src="/stickers/pink/blushPinkghost.png"
-            alt=""
-            width={48}
-            height={48}
-          />
-          <img
-            className="cart-empty-deco cart-empty-deco--c"
-            src="/stickers/mint/mineGreenToast.png"
-            alt=""
-            width={48}
-            height={48}
-          />
-          <img
-            className="cart-empty-deco cart-empty-deco--d"
-            src="/stickers/peach/peachCat.png"
-            alt=""
-            width={48}
-            height={48}
-          />
           <CartEmptyPanel>
+            {/* eslint-disable-next-line @next/next/no-img-element -- static public asset */}
             <img
-              className="cart-empty-hero"
-              src="/stickers/mint/mintGreenCat.png"
+              className="cart-empty-illustration"
+              src="/emptyCartNoBg.png"
               alt=""
-              width={180}
-              height={120}
+              width={220}
+              height={160}
             />
             <h1 className="cart-empty-title">
-              Your cart is empty... for now! ✦
+              Your cart is empty… for now!
             </h1>
             <p className="cart-empty-sub">
-              Go explore the lockers and find something special ♡
+              Go explore the lockers and find something special.
             </p>
             <Link className="cart-empty-browse-btn" href="/">
               Browse lockers

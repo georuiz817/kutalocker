@@ -225,6 +225,8 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
       items: emailItems,
       shippingAddress,
       orderTotal: totalPaid,
+      lockerNumber: lockerRow.number,
+      lockerNickname: lockerRow.nickname,
     }).catch((err) =>
       console.error("Seller notification email promise rejected:", err)
     );

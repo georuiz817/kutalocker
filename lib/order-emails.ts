@@ -145,6 +145,8 @@ export async function sendSellerNewOrderEmail(params: {
   items: OrderEmailLineItem[];
   shippingAddress: Record<string, unknown> | null;
   orderTotal: number;
+  lockerNumber: number;
+  lockerNickname: string;
 }): Promise<void> {
   const key = process.env.RESEND_API_KEY;
   if (!key) {
@@ -152,7 +154,7 @@ export async function sendSellerNewOrderEmail(params: {
     return;
   }
   const from = process.env.RESEND_FROM?.trim() || DEFAULT_FROM;
-  const { to, items, shippingAddress, orderTotal } = params;
+  const { to, items, shippingAddress, orderTotal, lockerNumber, lockerNickname } = params;
 
   const html = `
 <!DOCTYPE html>
@@ -161,7 +163,8 @@ export async function sendSellerNewOrderEmail(params: {
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08);">
     <tr><td style="padding:24px 28px;">
       <h1 style="margin:0 0 8px;font-size:20px;font-weight:600;">New order</h1>
-      <p style="margin:0 0 20px;color:#555;line-height:1.5;">You have a new Kura Mart order. Ship to the address below.</p>
+      <p style="margin:0 0 12px;color:#555;line-height:1.5;">You have a new Kura Mart order. Ship to the address below.</p>
+      <p style="margin:0 0 20px;font-size:15px;font-weight:600;color:#1a1a1a;">Locker #${lockerNumber} — ${lockerNickname}</p>
       <h2 style="margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:#666;">Items sold</h2>
       <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:24px;">
         <thead>

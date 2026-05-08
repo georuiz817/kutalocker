@@ -110,7 +110,7 @@ export default function SellerOrderTrackingForm({
           </select>
 
           <div className="seller-order-tracking-actions">
-            <button type="submit" className="button-link seller-order-tracking-save">
+            <button type="submit" className="button-link button-link--nav-auth seller-order-tracking-save">
               Save
             </button>
             {(hasTracking && editing) || (!hasTracking && showNewForm) ? (

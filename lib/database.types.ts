@@ -127,6 +127,7 @@ export type Database = {
           platform_fee: number;
           tracking_number: string | null;
           carrier: string | null;
+          status: string;
         };
         Insert: {
           id?: string;
@@ -139,6 +140,7 @@ export type Database = {
           platform_fee?: number;
           tracking_number?: string | null;
           carrier?: string | null;
+          status?: string;
         };
         Update: {
           id?: string;
@@ -151,6 +153,7 @@ export type Database = {
           platform_fee?: number;
           tracking_number?: string | null;
           carrier?: string | null;
+          status?: string;
         };
         Relationships: [
           {

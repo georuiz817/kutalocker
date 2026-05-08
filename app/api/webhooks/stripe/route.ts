@@ -157,6 +157,7 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
       stripe_checkout_session_id: sessionId,
       platform_fee: platformFee,
       shipping_address: (shippingAddress ?? null) as Json,
+      status: "completed",
     })
     .select("id")
     .single();

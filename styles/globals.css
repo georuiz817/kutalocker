@@ -2781,10 +2781,6 @@ h1 {
 }
 
 @media (max-width: 680px) {
-  .site-nav {
-    padding: 0.85rem 1rem;
-  }
-
   .auth-card,
   .panel {
     padding: 1.5rem;
@@ -2800,32 +2796,46 @@ h1 {
 }
 
 @media (max-width: 479px) {
-  .site-nav {
-    gap: 0.5rem;
-    padding: 0.75rem 0.65rem;
-  }
-
   .home-heading-title {
     font-size: clamp(0.88rem, 4.5vw, 1.15rem);
     gap: 6px;
     letter-spacing: -0.02em;
   }
+}
 
-  .nav-profile-icon {
-    width: 1.375rem;
-    height: 1.375rem;
+/* Mobile: nav tap targets + horizontal inset matches .page-shell (1.5rem) */
+@media (max-width: 768px) {
+  .site-nav {
+    /* Align with homepage / page-shell content: max-width 1120px + horizontal 1.5rem */
+    padding: 0.75rem 1.5rem;
+    gap: 0.75rem;
   }
 
-  .nav-cart-icon svg {
-    width: 1.375rem;
-    height: 1.375rem;
+  .site-nav .nav-end {
+    gap: 0.75rem;
   }
 
-  .nav-profile-trigger {
-    padding: 0.12rem;
+  .site-nav .nav-profile-trigger {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-  .nav-cart {
-    padding: 0.12rem;
+  .site-nav .nav-profile-icon {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+
+  .site-nav .nav-cart {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .site-nav .nav-cart-icon svg {
+    width: 1.875rem;
+    height: 1.875rem;
   }
 }

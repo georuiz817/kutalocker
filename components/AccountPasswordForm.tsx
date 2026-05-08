@@ -5,9 +5,11 @@ import { createClient } from "@/lib/supabase";
 
 type Props = {
   email: string;
+  /** Navbar Log in / Sign up visuals (seller dashboard Profile only). */
+  navAuthButtons?: boolean;
 };
 
-export default function AccountPasswordForm({ email }: Props) {
+export default function AccountPasswordForm({ email, navAuthButtons }: Props) {
   const supabase = createClient();
   const [open, setOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -90,7 +92,15 @@ export default function AccountPasswordForm({ email }: Props) {
       ) : null}
 
       {!open ? (
-        <button type="button" className="account-change-pw-btn" onClick={openPasswordForm}>
+        <button
+          type="button"
+          className={
+            navAuthButtons
+              ? "button-link button-link--nav-auth"
+              : "account-change-pw-btn"
+          }
+          onClick={openPasswordForm}
+        >
           Change Password
         </button>
       ) : null}
@@ -162,7 +172,11 @@ export default function AccountPasswordForm({ email }: Props) {
           <div className="payout-actions">
             <button
               type="submit"
-              className="button-link"
+              className={
+                navAuthButtons
+                  ? "button-link button-link--nav-auth"
+                  : "button-link"
+              }
               disabled={isSubmitting}
             >
               {isSubmitting ? "Saving…" : "Save password"}

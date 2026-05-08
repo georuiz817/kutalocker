@@ -370,9 +370,6 @@ export default function LockerForm({
         <Link className="text-link" href="/dashboard">
           ← Back to dashboard
         </Link>
-        {mode === "edit" && initialLocker ? (
-          <p className="locker-number-pill mono">Locker #{initialLocker.number}</p>
-        ) : null}
       </div>
 
       {readOnly ? (
@@ -389,7 +386,11 @@ export default function LockerForm({
 
       <section className="panel locker-form-panel">
         <h1 className="locker-form-title">
-          {mode === "new" ? "Create locker" : "Edit locker"}
+          {mode === "new"
+            ? "Create locker"
+            : initialLocker
+              ? `Edit locker #${initialLocker.number}`
+              : "Edit locker"}
         </h1>
 
         <form className="locker-form" onSubmit={handleSubmit}>
@@ -527,7 +528,7 @@ export default function LockerForm({
 
           <div className="form-actions">
             <button
-              className="button-link"
+              className="button-link button-link--nav-auth"
               type="submit"
               disabled={readOnly || submitting}
             >
@@ -543,7 +544,10 @@ export default function LockerForm({
               delete if this locker has no orders. The locker number will not be
               reused.
             </p>
-            <DeleteLockerButton lockerId={initialLocker.id} />
+            <DeleteLockerButton
+              lockerId={initialLocker.id}
+              triggerClassName="button-link button-link--nav-auth locker-form-delete-open"
+            />
           </div>
         ) : null}
       </section>

@@ -100,15 +100,24 @@ export function DeleteLockerModal({
   );
 }
 
-export function DeleteLockerButton({ lockerId }: { lockerId: string }) {
+export function DeleteLockerButton({
+  lockerId,
+  triggerClassName,
+}: {
+  lockerId: string;
+  /** Defaults to `button-ghost` (e.g. dashboard table). */
+  triggerClassName?: string;
+}) {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
+
+  const triggerClass = triggerClassName?.trim() ?? "button-ghost";
 
   return (
     <>
       <button
         type="button"
-        className="button-ghost"
+        className={triggerClass}
         onClick={() => setOpen(true)}
       >
         Delete

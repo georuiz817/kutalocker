@@ -178,8 +178,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       ) : null}
       {payoutsIncomplete ? (
         <p className="banner dashboard-connect-warning">
-          Finish Stripe payout setup so you can receive seller payouts once Kura Market
-          sends them manually.
+          Finish Stripe setup so you can receive payouts on shipped orders.
         </p>
       ) : null}
 
@@ -187,12 +186,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         <div>
           <p className="eyebrow">Seller dashboard</p>
           <h1>Your lockers</h1>
-          <p className="muted">
-            Create a locker, add items, and remove it from the dashboard when you
-            no longer need it (only if it has no orders).
-          </p>
+
         </div>
-        <Link className="button-link" href="/dashboard/lockers/new">
+        <Link
+          className="button-link button-link--nav-auth"
+          href="/dashboard/lockers/new"
+        >
           Create locker
         </Link>
       </header>
@@ -246,9 +245,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 
       <section className="dashboard-orders">
         <h2 className="dashboard-orders-title">Orders</h2>
-        <p className="muted small dashboard-orders-lead">
-          Purchases from your lockers. Shipping addresses are from Stripe checkout.
-        </p>
+
 
         {!lockerIds.length || !sellerOrders.length ? (
           <div className="panel empty-state dashboard-orders-empty">
@@ -344,7 +341,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           <p className="muted">
             Email: <span className="mono">{email}</span>
           </p>
-          <AccountPasswordForm email={email} />
+          <AccountPasswordForm email={email} navAuthButtons />
         </div>
       </section>
 
@@ -399,7 +396,10 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                   Link Stripe so you&apos;re ready to receive payouts when Kura Market
                   sends them.
                 </p>
-                <a className="button-link" href="/api/connect/onboard">
+                <a
+                  className="button-link button-link--nav-auth"
+                  href="/api/connect/onboard"
+                >
                   Set Up Payouts
                 </a>
               </>

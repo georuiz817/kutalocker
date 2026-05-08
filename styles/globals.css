@@ -282,7 +282,9 @@ button:disabled {
   font-size: 0.95rem;
 }
 
-.site-nav .nav-auth .button-link {
+/* Navbar Log in / Sign up + reused via .button-link--nav-auth (same cascade as nav) */
+.site-nav .nav-auth .button-link,
+.button-link.button-link--nav-auth {
   color: var(--foreground);
   background: var(--background);
   border: 1px solid var(--foreground);
@@ -292,7 +294,8 @@ button:disabled {
     border-color 0.15s ease;
 }
 
-.site-nav .nav-auth .button-link:hover {
+.site-nav .nav-auth .button-link:hover,
+.button-link.button-link--nav-auth:hover:not(:disabled) {
   color: var(--background);
   background: var(--foreground);
   border-color: var(--foreground);
@@ -766,18 +769,11 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 1rem;
   margin-bottom: 1.25rem;
 }
 
-.locker-number-pill {
-  padding: 0.35rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  font-size: 0.85rem;
-  color: var(--muted);
-}
 
 .banner {
   padding: 0.85rem 1rem;
@@ -976,6 +972,11 @@ h1 {
   border-top: 1px solid var(--border);
   display: grid;
   gap: 0.75rem;
+}
+
+.locker-form-danger-zone .locker-form-delete-open {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* —— Buyer marketplace —— */
@@ -2502,6 +2503,10 @@ h1 {
 
 /* Inline controls should match other ghost buttons; column flex would stretch them full width. */
 .dashboard-profile-card > .button-ghost {
+  align-self: flex-start;
+}
+
+.dashboard-profile-card .button-link.button-link--nav-auth {
   align-self: flex-start;
 }
 

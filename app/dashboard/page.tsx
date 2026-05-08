@@ -247,8 +247,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       <section className="dashboard-orders">
         <h2 className="dashboard-orders-title">Orders</h2>
         <p className="muted small dashboard-orders-lead">
-          Purchases from your lockers. Shipping addresses are from Stripe
-          checkout.
+          Purchases from your lockers. Shipping addresses are from Stripe checkout.
         </p>
 
         {!lockerIds.length || !sellerOrders.length ? (
@@ -262,7 +261,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
               const oi = order.order_items;
               const date = new Date(order.created_at);
               const address = formatShippingAddress(order.shipping_address);
-              const email = buyerEmailByOrder.get(order.id);
+              const buyerOrderEmail = buyerEmailByOrder.get(order.id);
               const trackingPending =
                 order.tracking_number == null ||
                 !String(order.tracking_number).trim();
@@ -292,9 +291,9 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                     <span className="muted">Total:</span>{" "}
                     <span className="mono">${Number(order.total).toFixed(2)}</span>
                   </p>
-                  {email ? (
+                  {buyerOrderEmail ? (
                     <p>
-                      <span className="muted">Buyer:</span> {email}
+                      <span className="muted">Buyer:</span> {buyerOrderEmail}
                     </p>
                   ) : null}
                   {address ? (

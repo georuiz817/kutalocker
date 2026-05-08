@@ -1037,7 +1037,7 @@ h1 {
   object-fit: cover;
   object-position: center;
   display: block;
-  border: 2px solid #000;
+
   border-radius: 14px;
   box-sizing: border-box;
 }
@@ -1142,8 +1142,7 @@ h1 {
   object-fit: cover;
   object-position: center;
   display: block;
-  border: 2px solid #000;
-  border-radius: 12px;
+   border-radius: 12px;
   box-sizing: border-box;
 }
 

@@ -68,6 +68,7 @@ export default async function PublicLockerPage({ params }: Props) {
 
   const polaroidIdx = ((locker.number % 10) + 10) % 10;
   const polaroidBg = POLAROID_BG[polaroidIdx];
+  const displayName = locker.nickname?.trim() ?? "";
 
   return (
     <main
@@ -90,8 +91,10 @@ export default async function PublicLockerPage({ params }: Props) {
       </div>
 
       <header className="locker-public-header">
-        <p className="locker-public-number mono">#{locker.number}</p>
-        <h1>{locker.nickname}</h1>
+        <h1>
+          <span className="mono">#{locker.number}</span>
+          {displayName ? ` ${displayName}` : ""}
+        </h1>
         <p className="locker-shipping-callout mono">
           Shipping ${Number(locker.shipping_rate).toFixed(2)}
         </p>

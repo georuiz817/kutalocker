@@ -1160,19 +1160,20 @@ h1 {
 
 .locker-public-header {
   max-width: 720px;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .locker-public-header h1 {
   font-size: clamp(1.75rem, 4vw, 2.75rem);
   letter-spacing: -0.05em;
   margin-bottom: 0.5rem;
+  font-family: var(--font-heading), system-ui, sans-serif;
 }
 
-.locker-public-number {
-  color: var(--muted);
+.locker-public-header h1 .mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
   font-weight: 700;
-  margin-bottom: 0.25rem;
 }
 
 .locker-shipping-callout {
@@ -1195,7 +1196,7 @@ h1 {
   color: #fff;
   margin-left: -1.5rem;
   margin-right: -1.5rem;
-  padding: 2rem 1.5rem 3rem;
+  padding: 1.25rem 1.5rem 3rem;
   position: relative;
 }
 

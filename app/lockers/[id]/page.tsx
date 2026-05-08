@@ -101,9 +101,7 @@ export default async function PublicLockerPage({ params }: Props) {
       </header>
 
       <section className="locker-items-section" aria-labelledby="items-heading">
-        <h2 id="items-heading" className="items-section-title">
-          Items
-        </h2>
+  
         <ol className="public-item-list price-tag-grid">
           {list.map((item) => (
             <PublicItemRow key={item.id} item={item} locker={cartLocker} />

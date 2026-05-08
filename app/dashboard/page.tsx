@@ -333,9 +333,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         <h2 className="dashboard-orders-title" id="dashboard-profile-title">
           Profile
         </h2>
-        <p className="muted small dashboard-orders-lead">
-          Email and password for this account.
-        </p>
 
         <div className="panel seller-order-card dashboard-profile-card">
           <p className="muted">
@@ -353,10 +350,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           <h2 className="dashboard-orders-title" id="dashboard-payouts-title">
             Payouts
           </h2>
-          <p className="muted small dashboard-orders-lead">
-            Connect Stripe Express to receive payouts. Buyers still pay Kura Market
-            at checkout; transfers are handled manually outside of checkout.
-          </p>
 
           <div className="panel seller-order-card dashboard-payouts-connect">
             {chargesEnabled ? (

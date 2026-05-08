@@ -1142,7 +1142,7 @@ h1 {
   object-fit: cover;
   object-position: center;
   display: block;
-   border-radius: 12px;
+  border-radius: 12px;
   box-sizing: border-box;
 }
 
@@ -2303,6 +2303,48 @@ h1 {
   font-variant-numeric: tabular-nums;
 }
 
+.receipt-status {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed #888;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.receipt-status-msg {
+  margin: 0;
+  font-family: inherit;
+}
+
+.receipt-status-msg--processing {
+  color: #666;
+}
+
+.receipt-status-msg--shipped {
+  color: #0f5d2a;
+  font-weight: 700;
+}
+
+.receipt-status-track {
+  margin: 0.35rem 0 0;
+  font-family: inherit;
+}
+
+.receipt-status-track--plain {
+  color: #000;
+}
+
+.receipt-status-track-link {
+  color: #1d4ed8;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.receipt-status-track-link:hover {
+  color: #1e3a8a;
+}
+
 @media (max-width: 640px) {
   .account-deco {
     width: 2rem;
@@ -2726,26 +2768,6 @@ h1 {
   margin: 0.25rem 0 0;
   font-size: 0.85rem;
   color: #166534;
-}
-
-/* Buyer receipt tracking */
-.receipt-tracking-link {
-  color: #000;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 0.12em;
-}
-
-.receipt-tracking-carrier {
-  font-weight: 500;
-}
-
-.account-orders-section .receipt-tracking-link {
-  color: #000;
-}
-
-.receipt-tracking-pending {
-  margin-top: 0.15rem;
 }
 
 @media (prefers-color-scheme: dark) {

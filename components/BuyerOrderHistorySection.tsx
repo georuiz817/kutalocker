@@ -1,4 +1,7 @@
-import { trackingUrlForCarrier } from "@/lib/tracking";
+import {
+  inferCarrierFromTracking,
+  trackingUrlForCarrier,
+} from "@/lib/tracking";
 
 type LockerInfo = { number: number; nickname: string };
 
@@ -36,11 +39,18 @@ export default function BuyerOrderHistorySection({ orders }: Props) {
         const locker = order.lockers;
         const oi = order.order_items;
         const date = new Date(order.created_at);
-        const tracking = order.tracking_number?.trim() ?? "";
-        const carrier = order.carrier ?? null;
+        const trackingDisplay = order.tracking_number?.trim() ?? "";
+        const shipped = trackingDisplay.length > 0;
+        const trackingNormalized = trackingDisplay.replace(/\s+/g, "");
+        const inferredCarrier = shipped
+          ? inferCarrierFromTracking(trackingDisplay)
+          : null;
         const trackUrl =
-          carrier && tracking
-            ? trackingUrlForCarrier(carrier, tracking)
+          inferredCarrier != null
+            ? trackingUrlForCarrier(
+                inferredCarrier,
+                trackingNormalized || trackingDisplay,
+              )
             : null;
 
         return (
@@ -60,32 +70,6 @@ export default function BuyerOrderHistorySection({ orders }: Props) {
               <p className="receipt-meta">
                 Locker #{locker?.number} — {locker?.nickname}
               </p>
-              {tracking && carrier ? (
-                carrier === "Other" || !trackUrl ? (
-                  <p className="receipt-meta receipt-tracking">
-                    {tracking}
-                  </p>
-                ) : (
-                  <p className="receipt-meta receipt-tracking">
-                    <a
-                      href={trackUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="receipt-tracking-link"
-                    >
-                      {tracking}
-                    </a>
-                    <span className="receipt-tracking-carrier muted">
-                      {" "}
-                      · {carrier}
-                    </span>
-                  </p>
-                )
-              ) : (
-                <p className="receipt-meta muted receipt-tracking-pending">
-                  Tracking pending
-                </p>
-              )}
               <ul className="receipt-items">
                 {(oi ?? []).map((row) => {
                   const it = row.items;
@@ -111,6 +95,36 @@ export default function BuyerOrderHistorySection({ orders }: Props) {
                   ${Number(order.total).toFixed(2)}
                 </span>
               </p>
+
+              <div className="receipt-status">
+                {shipped ? (
+                  <>
+                    <p className="receipt-status-msg receipt-status-msg--shipped">
+                      Status: Shipped
+                    </p>
+                    {trackUrl ? (
+                      <p className="receipt-status-track">
+                        <a
+                          href={trackUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="receipt-status-track-link"
+                        >
+                          {trackingDisplay}
+                        </a>
+                      </p>
+                    ) : (
+                      <p className="receipt-status-track receipt-status-track--plain">
+                        {trackingDisplay}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p className="receipt-status-msg receipt-status-msg--processing">
+                    Status: Processing
+                  </p>
+                )}
+              </div>
             </div>
             <div className="receipt-edge receipt-edge--bottom" aria-hidden="true" />
           </li>

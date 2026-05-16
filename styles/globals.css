@@ -127,13 +127,15 @@ button:disabled {
   flex-direction: row;
   flex-shrink: 0;
   align-items: center;
-  gap: clamp(3rem, 14vw, 10rem);
+  gap: 0.5rem;
   padding-right: 80px;
 }
 
 .marquee-phrase {
+  display: inline-flex;
+  align-items: center;
   flex-shrink: 0;
-  white-space: nowrap;
+  gap: 0.35rem;
   font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
   font-size: 0.8125rem;
@@ -143,17 +145,52 @@ button:disabled {
   color: #000;
 }
 
+.marquee-phrase-star {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.92;
+}
+
+.marquee-phrase-text {
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
 .marquee-decor {
   flex-shrink: 0;
-  white-space: nowrap;
-  font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 38px;
-  color: #000;
-  opacity: 0.9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0 0.15rem;
+  line-height: 0;
+}
+
+.marquee-decor-img {
+  height: 24px;
+  width: auto;
+  display: block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.marquee-decor-cluster {
+  box-sizing: border-box;
+  width: clamp(11rem, 28vw, 15rem);
+  max-width: min(92vw, 18rem);
+  justify-content: space-evenly;
+  gap: 0;
+  padding: 0;
+}
+
+.marquee-fallback-star {
+  opacity: 0.92;
+  font-weight: 700;
+}
+
+.marquee-fallback-sentence {
+  text-transform: uppercase;
 }
 
 @media (prefers-reduced-motion: reduce) {

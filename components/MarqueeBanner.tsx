@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import type { CSSProperties } from "react";
 
 const MARQUEE_BASE =
-  "Welcome to the opening of Kura Market. Shop, sell, and explore what people have to offer.";
+  "Welcome to the opening of Kura Market. Shop, sell, and explore what people have to offer. Kura Mart is looking for sellers to grow the site!!!! First 100 lockers will get a special OG badge.";
 
 /** Same palette as homepage locker polaroids (CSS --locker-color-*). */
 const MARQUEE_PALETTE = [

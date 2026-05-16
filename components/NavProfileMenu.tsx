@@ -90,14 +90,24 @@ export default function NavProfileMenu({
           </Link>
         ) : null}
         {role === "seller" ? (
-          <Link
-            href="/dashboard"
-            className="nav-profile-link"
-            role="menuitem"
-            onClick={closeMobile}
-          >
-            Dashboard
-          </Link>
+          <>
+            <Link
+              href="/dashboard"
+              className="nav-profile-link"
+              role="menuitem"
+              onClick={closeMobile}
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/seller-guide"
+              className="nav-profile-link"
+              role="menuitem"
+              onClick={closeMobile}
+            >
+              Seller Guide
+            </Link>
+          </>
         ) : null}
         <form action={signOutAction} className="nav-profile-signout-form">
           <button type="submit" className="nav-profile-logout" role="menuitem">

@@ -2946,3 +2946,138 @@ h1 {
     display: none;
   }
 }
+
+/* Locker detail (/lockers/[id]) — page structure only; does not alter polaroid/card/tag styling. */
+
+/* Match nav gutters: shell is normally max 1120px; nav spans full width with 2.5rem inset. */
+.page-shell.locker-public {
+  max-width: none;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+.locker-public-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: start;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+.locker-public-layout__media,
+.locker-public-layout__head,
+.locker-public-layout__items {
+  min-width: 0;
+}
+
+/* Slightly roomier tag padding in the locker layout rail only (colors / type unchanged). */
+.locker-public .locker-public-layout__items .price-tag-card {
+  padding: 1.12rem 1.05rem 1rem;
+  padding-top: 1.32rem;
+}
+
+.locker-public .locker-public-layout__items .price-tag-item {
+  min-width: 0;
+}
+
+/* Tighter strip between shipping pill + item grid (scoped to locker detail layout). */
+.locker-public-layout__head .locker-public-header {
+  margin-bottom: 0;
+}
+
+.locker-public-layout__head .locker-shipping-callout {
+  margin-top: 0.55rem;
+}
+
+.locker-public .locker-public-layout__items .locker-items-section {
+  padding-top: 0.5rem;
+}
+
+/* Stacked (<900): photo above items — fluid 1–2 columns from available width */
+@media (max-width: 899px) {
+  .locker-public .locker-public-layout__items .price-tag-grid {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(17rem, 100%), 1fr)
+    );
+  }
+}
+
+@media (min-width: 900px) {
+  .locker-public-layout {
+    /* Slightly smaller photo column so the details + grid column can breathe */
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 2rem;
+    row-gap: 0.6rem;
+    align-items: start;
+  }
+
+  .locker-public-layout__media {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    position: sticky;
+    top: 5.75rem;
+    align-self: start;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Let polaroid span the larger column — global polaroid keeps max-width: 800px for other uses */
+  .locker-public .locker-public-layout__media .locker-public-polaroid {
+    width: 100%;
+    max-width: none;
+  }
+
+  .locker-public-layout__head {
+    grid-column: 2;
+    grid-row: 1;
+    max-width: 100%;
+  }
+
+  .locker-public-layout__items {
+    grid-column: 2;
+    grid-row: 2;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  /* Original section uses horizontal negative margins for full bleed; in the right
+     column that would overlap the photo — cancel margins here only. */
+  .locker-public .locker-public-layout__items .locker-items-section {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 1.25rem;
+  }
+
+  /*
+   * Right rail (900px–1279px): ~3 columns via auto-fit; 1280px+ adds 4 columns below.
+   */
+  .locker-public .locker-public-layout__items .price-tag-grid {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(
+        min(max(12rem, calc((100% - 2 * 1.35rem) / 3)), 100%),
+        1fr
+      )
+    );
+  }
+}
+
+@media (min-width: 1280px) {
+  .locker-public .locker-public-layout__items .price-tag-grid {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(
+        min(max(12rem, calc((100% - 3 * 1.35rem) / 4)), 100%),
+        1fr
+      )
+    );
+  }
+}

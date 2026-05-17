@@ -75,38 +75,48 @@ export default async function PublicLockerPage({ params }: Props) {
       className="page-shell locker-public"
       style={{ "--locker-polaroid-bg": polaroidBg } as CSSProperties}
     >
-      <div className="locker-public-polaroid">
-        <div className="locker-public-polaroid-photo">
-          {locker.photo_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={locker.photo_url}
-              alt=""
-              className="locker-public-polaroid-img"
-            />
-          ) : (
-            <div className="locker-public-polaroid-placeholder">No photo</div>
-          )}
+      <div className="locker-public-layout">
+        <div className="locker-public-layout__media">
+          <div className="locker-public-polaroid">
+            <div className="locker-public-polaroid-photo">
+              {locker.photo_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={locker.photo_url}
+                  alt=""
+                  className="locker-public-polaroid-img"
+                />
+              ) : (
+                <div className="locker-public-polaroid-placeholder">
+                  No photo
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="locker-public-layout__head">
+          <header className="locker-public-header">
+            <h1>
+              <span className="mono">#{locker.number}</span>
+              {displayName ? ` ${displayName}` : ""}
+            </h1>
+            <p className="locker-shipping-callout mono">
+              Shipping ${Number(locker.shipping_rate).toFixed(2)}
+            </p>
+          </header>
+        </div>
+
+        <div className="locker-public-layout__items">
+          <section className="locker-items-section">
+            <ol className="public-item-list price-tag-grid">
+              {list.map((item) => (
+                <PublicItemRow key={item.id} item={item} locker={cartLocker} />
+              ))}
+            </ol>
+          </section>
         </div>
       </div>
-
-      <header className="locker-public-header">
-        <h1>
-          <span className="mono">#{locker.number}</span>
-          {displayName ? ` ${displayName}` : ""}
-        </h1>
-        <p className="locker-shipping-callout mono">
-          Shipping ${Number(locker.shipping_rate).toFixed(2)}
-        </p>
-      </header>
-
-      <section className="locker-items-section">
-        <ol className="public-item-list price-tag-grid">
-          {list.map((item) => (
-            <PublicItemRow key={item.id} item={item} locker={cartLocker} />
-          ))}
-        </ol>
-      </section>
     </main>
   );
 }

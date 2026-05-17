@@ -1319,8 +1319,8 @@ h1 {
 }
 
 .locker-public .locker-items-section {
-  background: #000;
-  color: #fff;
+  background: var(--background);
+  color: var(--foreground);
   margin-left: -2.5rem;
   margin-right: -2.5rem;
   padding: 1.25rem 2.5rem 3rem;

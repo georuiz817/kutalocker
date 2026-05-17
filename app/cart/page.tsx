@@ -107,10 +107,10 @@ export default function CartPage() {
             {/* eslint-disable-next-line @next/next/no-img-element -- static public asset */}
             <img
               className="cart-empty-illustration"
-              src="/emptyCartNoBg.png"
+              src="/pixelCharacters/teddyBear.png"
               alt=""
               width={220}
-              height={160}
+              height={220}
             />
             <h1 className="cart-empty-title">
               Your cart is empty… for now!

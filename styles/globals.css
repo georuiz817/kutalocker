@@ -2973,10 +2973,10 @@ h1 {
   min-width: 0;
 }
 
-/* Slightly roomier tag padding in the locker layout rail only (colors / type unchanged). */
+/* Snug card padding — locker rail only (font sizes unchanged). */
 .locker-public .locker-public-layout__items .price-tag-card {
-  padding: 1.12rem 1.05rem 1rem;
-  padding-top: 1.32rem;
+  padding: 0.72rem 0.68rem 0.62rem;
+  padding-top: 0.92rem;
 }
 
 .locker-public .locker-public-layout__items .price-tag-item {
@@ -2996,13 +2996,15 @@ h1 {
   padding-top: 0.5rem;
 }
 
-/* Stacked (<900): photo above items — fluid 1–2 columns from available width */
+/* Mobile stacked locker layout (<900px): single column price tags; overrides global 2-up at 640px. */
 @media (max-width: 899px) {
   .locker-public .locker-public-layout__items .price-tag-grid {
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(min(17rem, 100%), 1fr)
-    );
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .locker-public .locker-public-layout__items .price-tag-card {
+    padding: 0.58rem 0.52rem 0.48rem;
+    padding-top: 0.8rem;
   }
 }
 

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Dela_Gothic_One, Nunito } from "next/font/google";
 import { CartProvider } from "@/components/CartProvider";
 import MarqueeBanner from "@/components/MarqueeBanner";
@@ -22,6 +22,10 @@ const delaGothicOne = Dela_Gothic_One({
 export const metadata: Metadata = {
   title: "kuraMart",
   description: "kuraMart",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
 };
 
 export default function RootLayout({

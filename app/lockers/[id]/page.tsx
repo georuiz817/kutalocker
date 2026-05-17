@@ -1,3 +1,4 @@
+import LockerPolaroidLightbox from "@/components/LockerPolaroidLightbox";
 import LockerPriceTagCartSection from "@/components/LockerPriceTagCartSection";
 import type { CartLockerMeta } from "@/components/CartProvider";
 import { createClient } from "@/lib/supabase/server";
@@ -80,12 +81,7 @@ export default async function PublicLockerPage({ params }: Props) {
           <div className="locker-public-polaroid">
             <div className="locker-public-polaroid-photo">
               {locker.photo_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={locker.photo_url}
-                  alt=""
-                  className="locker-public-polaroid-img"
-                />
+                <LockerPolaroidLightbox photoUrl={locker.photo_url} />
               ) : (
                 <div className="locker-public-polaroid-placeholder">
                   No photo

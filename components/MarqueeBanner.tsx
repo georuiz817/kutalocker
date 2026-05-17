@@ -56,9 +56,6 @@ function MarqueeSegment({ segmentKey }: { segmentKey: "a" | "b" }) {
 
           const phrase = (
             <span key={`p-${segmentKey}-${r}-${s}`} className="marquee-phrase">
-              <span className="marquee-phrase-star" aria-hidden="true">
-                ✦
-              </span>
               <span className="marquee-phrase-text">{sentence}</span>
             </span>
           );
@@ -122,9 +119,6 @@ export default function MarqueeBanner() {
       <p className="marquee-fallback">
         {MARQUEE_SENTENCES.map((sentence, i) => (
           <Fragment key={`fb-${i}`}>
-            <span className="marquee-fallback-star" aria-hidden="true">
-              ✦{" "}
-            </span>
             <span className="marquee-fallback-sentence">{sentence}</span>
             {i < MARQUEE_SENTENCES.length - 1 ? " " : null}
           </Fragment>

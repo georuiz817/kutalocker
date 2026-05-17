@@ -119,7 +119,7 @@ button:disabled {
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 75s linear infinite;
+  animation: marquee 120s linear infinite;
 }
 
 .marquee-segment {
@@ -143,14 +143,6 @@ button:disabled {
   letter-spacing: 0.01em;
   line-height: 38px;
   color: #000;
-}
-
-.marquee-phrase-star {
-  flex-shrink: 0;
-  font-size: 0.72rem;
-  font-weight: 700;
-  line-height: 1;
-  opacity: 0.92;
 }
 
 .marquee-phrase-text {
@@ -182,11 +174,6 @@ button:disabled {
   justify-content: space-evenly;
   gap: 0;
   padding: 0;
-}
-
-.marquee-fallback-star {
-  opacity: 0.92;
-  font-weight: 700;
 }
 
 .marquee-fallback-sentence {
